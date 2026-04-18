@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>PaySolver Premium - Live Forex Bureau</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        .gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .gradient-warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .animate-slide-up { animation: slideUp 0.5s ease-out; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .toast-notification { animation: slideUp 0.3s ease-out; }
+        
+        .hover-lift { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15); }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3); }
+        
+        .tab-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .rate-up { color: #10b981; animation: pulse 0.5s ease; }
+        .rate-down { color: #ef4444; animation: pulse 0.5s ease; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        
+        @media (max-width: 640px) {
+            .responsive-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden transition-all duration-300" onclick="closeMobileMenu()">
+        <div class="bg-white w-80 h-full p-6 transform transition-transform duration-300" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-8 pb-4 border-b">
+                <div class="flex items-center space-x-2">
+                    <div class="gradient-primary w-10 h-10 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-exchange-alt text-white"></i>
+                    </div>
+                    <span class="font-bold text-xl">PaySolver</span>
+                </div>
+                <button onclick="closeMobileMenu()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <button onclick="navigateTo('main'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
+                    <i class="fas fa-home text-purple-600 w-5"></i>
+                    <span>Main Account</span>
+                </button>
+                <button onclick="navigateTo('exchange'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
+                    <i class="fas fa-exchange-alt text-blue-600 w-5"></i>
+                    <span>Exchange</span>
+                </button>
+                <button onclick="navigateTo('spend'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
+                    <i class="fas fa-credit-card text-green-600 w-5"></i>
+                    <span>Spend / Pay</span>
+                </button>
+                <button onclick="navigateTo('history'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
+                    <i class="fas fa-history text-orange-600 w-5"></i>
+                    <span>History</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        
+        <!-- Header -->
+        <div class="bg-white rounded-2xl p-4 sm:p-6 mb-6 shadow-xl">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <button onclick="openMobileMenu()" class="lg:hidden text-gray-600 hover:text-purple-600 transition">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                    <div class="gradient-primary w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-exchange-alt text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            PaySolver
+                        </h1>
+                        <p class="text-xs text-gray-500">Live Forex Exchange Bureau</p>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:flex space-x-2">
+                    <button onclick="navigateTo('main')" id="nav-main" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all tab-active">
+                        <i class="fas fa-home mr-2"></i>Main Account
+                    </button>
+                    <button onclick="navigateTo('exchange')" id="nav-exchange" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
+                        <i class="fas fa-exchange-alt mr-2"></i>Exchange
+                    </button>
+                    <button onclick="navigateTo('spend')" id="nav-spend" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
+                        <i class="fas fa-credit-card mr-2"></i>Spend / Pay
+                    </button>
+                    <button onclick="navigateTo('history')" id="nav-history" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
+                        <i class="fas fa-history mr-2"></i>History
+                    </button>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                    <div class="gradient-primary w-10 h-10 rounded-full flex items-center justify-center shadow-md">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                    <div class="hidden sm:block">
+                        <p class="text-sm font-semibold" id="userNameDisplay">Michael Traveler</p>
+                        <p class="text-xs text-gray-500">Premium Member</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Forex Rates Ticker -->
+        <div class="bg-white rounded-2xl p-4 mb-6 shadow-lg animate-slide-up">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-sm flex items-center">
+                    <i class="fas fa-chart-line text-green-500 mr-2 animate-pulse"></i>
+                    Live Forex Exchange Rates (1 USD = ?)
+                </h3>
+                <span class="text-xs text-gray-400">Updated just now</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                    <p class="font-bold text-sm">🇺🇬 UGX</p>
+                    <p class="text-lg font-bold text-purple-600" id="rate-UGX">3,700</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                    <p class="font-bold text-sm">🇰🇪 KES</p>
+                    <p class="text-lg font-bold text-purple-600" id="rate-KES">130.00</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                    <p class="font-bold text-sm">🇹🇿 TZS</p>
+                    <p class="text-lg font-bold text-purple-600" id="rate-TZS">2,500</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                    <p class="font-bold text-sm">🇿🇦 ZAR</p>
+                    <p class="text-lg font-bold text-purple-600" id="rate-ZAR">18.50</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                    <p class="font-bold text-sm">🇪🇺 EUR</p>
+                    <p class="text-lg font-bold text-purple-600" id="rate-EUR">0.92</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                    <p class="font-bold text-sm">🇬🇧 GBP</p>
+                    <p class="text-lg font-bold text-purple-600" id="rate-GBP">0.79</p>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <p class="text-xs text-gray-400 flex items-center justify-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Exchange Fee: <strong class="text-purple-600">1%</strong> of transaction amount
+                </p>
+            </div>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div id="content-area" class="animate-slide-up"></div>
+    </div>
+
+    <script>
+        // ==================== STATE ====================
+        
+        let user = { name: "Michael Traveler", email: "michael@example.com" };
+        
+        let mainAccount = {
+            currency: "USD",
+            balance: 10000.00,  // Demo balance
+            accountNumber: "PS-" + Math.floor(Math.random() * 1000000000)
+        };
+        
+        let localHolding = {
+            currency: null,
+            country: null,
+            balance: 0.00,
+            exchangeRate: null
+        };
+        
+        let exchangeRates = {
+            UGX: 3700.00, KES: 130.00, TZS: 2500.00, ZAR: 18.50,
+            NGN: 1480.00, GHS: 12.50, EUR: 0.92, GBP: 0.79,
+            JPY: 148.50, INR: 83.50, CNY: 7.24, PHP: 56.00,
+            THB: 36.50, VND: 25400.00, MYR: 4.70
+        };
+        
+        let countries = [
+            { name: "Uganda", currency: "UGX", flag: "🇺🇬", symbol: "USh", color: "from-green-500 to-teal-500" },
+            { name: "Kenya", currency: "KES", flag: "🇰🇪", symbol: "KSh", color: "from-red-500 to-orange-500" },
+            { name: "Tanzania", currency: "TZS", flag: "🇹🇿", symbol: "TSh", color: "from-blue-500 to-cyan-500" },
+            { name: "South Africa", currency: "ZAR", flag: "🇿🇦", symbol: "R", color: "from-yellow-500 to-orange-500" },
+            { name: "Nigeria", currency: "NGN", flag: "🇳🇬", symbol: "₦", color: "from-green-500 to-emerald-500" },
+            { name: "Ghana", currency: "GHS", flag: "🇬🇭", symbol: "₵", color: "from-red-500 to-yellow-500" },
+            { name: "United Kingdom", currency: "GBP", flag: "🇬🇧", symbol: "£", color: "from-blue-600 to-indigo-600" },
+            { name: "Germany", currency: "EUR", flag: "🇩🇪", symbol: "€", color: "from-yellow-500 to-amber-500" },
+            { name: "Japan", currency: "JPY", flag: "🇯🇵", symbol: "¥", color: "from-red-500 to-pink-500" },
+            { name: "India", currency: "INR", flag: "🇮🇳", symbol: "₹", color: "from-orange-500 to-red-500" }
+        ];
+        
+        let transactions = [];
+        let currentSection = "main";
+        let exchangeFeePercent = 1; // 1% fee
+        
+        // ==================== HELPER FUNCTIONS ====================
+        
+        function formatMoney(amount, currency) {
+            let found = countries.find(c => c.currency === currency);
+            let symbol = found ? found.symbol : currency;
+            if (currency === "UGX" || currency === "TZS" || currency === "JPY" || currency === "VND") {
+                return `${symbol} ${amount.toFixed(0)}`;
+            }
+            return `${symbol} ${amount.toFixed(2)}`;
+        }
+        
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleString();
+        }
+        
+        function showToast(message, type = "success") {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg text-white text-sm ${type === 'success' ? 'gradient-success' : 'gradient-warning'}`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} mr-2"></i>${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function addTransaction(type, details, amount, currency) {
+            transactions.unshift({
+                id: Date.now(),
+                type: type,
+                details: details,
+                amount: amount,
+                currency: currency,
+                date: new Date().toISOString(),
+                status: "completed"
+            });
+            if (transactions.length > 50) transactions.pop();
+            saveToLocalStorage();
+            renderCurrentSection();
+        }
+        
+        function updateLiveRates() {
+            // Simulate live rate updates with small fluctuations
+            Object.keys(exchangeRates).forEach(currency => {
+                let fluctuation = (Math.random() - 0.5) * 0.002;
+                let newRate = exchangeRates[currency] * (1 + fluctuation);
+                exchangeRates[currency] = Math.max(0.01, newRate);
+                
+                // Update displayed rate
+                let rateElement = document.getElementById(`rate-${currency}`);
+                if (rateElement) {
+                    let oldValue = parseFloat(rateElement.innerText);
+                    rateElement.innerText = exchangeRates[currency].toFixed(2);
+                    if (exchangeRates[currency] > oldValue) {
+                        rateElement.classList.add('rate-up');
+                        setTimeout(() => rateElement.classList.remove('rate-up'), 500);
+                    } else if (exchangeRates[currency] < oldValue) {
+                        rateElement.classList.add('rate-down');
+                        setTimeout(() => rateElement.classList.remove('rate-down'), 500);
+                    }
+                }
+            });
+            
+            // Update local holding rate if exists
+            if (localHolding.currency) {
+                localHolding.exchangeRate = exchangeRates[localHolding.currency];
+            }
+        }
+        
+        // ==================== CORE ACTIONS ====================
+        
+        function depositToMainAccount(amount, bankName = "Bank Transfer") {
+            if (amount <= 0) {
+                showToast("Please enter a valid amount", "error");
+                return false;
+            }
+            mainAccount.balance += amount;
+            addTransaction("DEPOSIT", `Deposited ${formatMoney(amount, "USD")} from ${bankName}`, amount, "USD");
+            showToast(`✅ ${formatMoney(amount, "USD")} added to your main account!`, "success");
+            saveToLocalStorage();
+            return true;
+        }
+        
+        function selectCountry(countryName, currencyCode) {
+            localHolding.country = countryName;
+            localHolding.currency = currencyCode;
+            localHolding.exchangeRate = exchangeRates[currencyCode];
+            addTransaction("COUNTRY_SELECTED", `Destination: ${countryName} (${currencyCode})`, 0, currencyCode);
+            showToast(`📍 Destination set to ${countryName}`, "success");
+            renderCurrentSection();
+        }
+        
+        function exchangeToLocal(usdAmount) {
+            if (!localHolding.currency) {
+                showToast("Please select a destination country first!", "error");
+                return false;
+            }
+            if (mainAccount.balance < usdAmount) {
+                showToast(`Insufficient USD balance. You have ${formatMoney(mainAccount.balance, "USD")}`, "error");
+                return false;
+            }
+            
+            let rate = localHolding.exchangeRate;
+            let fee = usdAmount * (exchangeFeePercent / 100);
+            let netUsd = usdAmount - fee;
+            let localAmount = netUsd * rate;
+            
+            mainAccount.balance -= usdAmount;
+            localHolding.balance += localAmount;
+            
+            addTransaction("EXCHANGE", `Exchanged ${formatMoney(usdAmount, "USD")} → ${formatMoney(localAmount, localHolding.currency)} (Fee: ${formatMoney(fee, "USD")})`, usdAmount, "USD");
+            showToast(`✅ Exchanged to ${formatMoney(localAmount, localHolding.currency)}`, "success");
+            saveToLocalStorage();
+            renderCurrentSection();
+            return true;
+        }
+        
+        // THE PAY/SPEND FUNCTION - FULLY WORKING
+        function spendLocal(amount, merchant, description = "") {
+            // Validation checks
+            if (!localHolding.currency) {
+                showToast("Please select a destination country first in Exchange tab!", "error");
+                return false;
+            }
+            
+            if (localHolding.balance <= 0) {
+                showToast(`You have no ${localHolding.currency} balance. Please exchange USD to ${localHolding.currency} first!`, "error");
+                return false;
+            }
+            
+            if (amount <= 0) {
+                showToast("Please enter a valid amount", "error");
+                return false;
+            }
+            
+            if (amount > localHolding.balance) {
+                showToast(`Insufficient balance! You have ${formatMoney(localHolding.balance, localHolding.currency)}`, "error");
+                return false;
+            }
+            
+            if (!merchant || merchant.trim() === "") {
+                showToast("Please enter merchant name", "error");
+                return false;
+            }
+            
+            // Process payment
+            localHolding.balance -= amount;
+            addTransaction("PAYMENT", `Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}${description ? ` (${description})` : ''}`, amount, localHolding.currency);
+            showToast(`✅ Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}`, "success");
+            saveToLocalStorage();
+            renderCurrentSection();
+            return true;
+        }
+        
+        function convertBackToUSD() {
+            if (localHolding.balance <= 0) {
+                showToast("No local currency to convert back", "error");
+                return false;
+            }
+            
+            let rate = localHolding.exchangeRate;
+            let usdAmount = localHolding.balance / rate;
+            let fee = usdAmount * (exchangeFeePercent / 100);
+            let netUsd = usdAmount - fee;
+            
+            mainAccount.balance += netUsd;
+            let convertedAmount = localHolding.balance;
+            localHolding.balance = 0;
+            
+            addTransaction("CONVERT_BACK", `Converted ${formatMoney(convertedAmount, localHolding.currency)} back to ${formatMoney(netUsd, "USD")} (Fee: ${formatMoney(fee, "USD")})`, netUsd, "USD");
+            showToast(`✅ Converted back to ${formatMoney(netUsd, "USD")}`, "success");
+            saveToLocalStorage();
+            renderCurrentSection();
+            return true;
+        }
+        
+        function getTotalValueUSD() {
+            let total = mainAccount.balance;
+            if (localHolding.currency && localHolding.balance > 0) {
+                total += (localHolding.balance / localHolding.exchangeRate);
+            }
+            return total;
+        }
+        
+        // ==================== LOCAL STORAGE ====================
+        
+        function saveToLocalStorage() {
+            localStorage.setItem('paysolver_data', JSON.stringify({ user, mainAccount, localHolding, transactions }));
+        }
+        
+        function loadFromLocalStorage() {
+            let saved = localStorage.getItem('paysolver_data');
+            if (saved) {
+                try {
+                    let data = JSON.parse(saved);
+                    user = data.user || user;
+                    mainAccount = data.mainAccount || mainAccount;
+                    localHolding = data.localHolding || localHolding;
+                    transactions = data.transactions || transactions;
+                } catch(e) {}
+            }
+        }
+        
+        function resetAllData() {
+            if (confirm("⚠️ WARNING: This will reset all your data. Are you sure?")) {
+                localStorage.removeItem('paysolver_data');
+                location.reload();
+            }
+        }
+        
+        // ==================== RENDERING ====================
+        
+        function renderMainSection() {
+            let totalValue = getTotalValueUSD();
+            let countryInfo = countries.find(c => c.currency === localHolding.currency);
+            
+            return `
+                <div class="space-y-6">
+                    <div class="gradient-primary rounded-3xl p-6 sm:p-8 text-white shadow-2xl hover-lift">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm opacity-80 mb-1">Main Account Balance</p>
+                                <p class="text-4xl sm:text-5xl font-bold">${formatMoney(mainAccount.balance, "USD")}</p>
+                                <p class="text-xs opacity-70 mt-2">Account: ${mainAccount.accountNumber}</p>
+                            </div>
+                            <div class="bg-white/20 rounded-2xl p-3">
+                                <i class="fas fa-credit-card text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button onclick="showDepositModal()" class="bg-white text-purple-600 px-5 py-2.5 rounded-xl font-semibold hover:shadow-lg transition text-sm">
+                                <i class="fas fa-plus mr-2"></i>Deposit
+                            </button>
+                            <button onclick="showWithdrawModal()" class="bg-white/20 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-white/30 transition text-sm">
+                                <i class="fas fa-arrow-down mr-2"></i>Withdraw
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-gray-500 text-sm">Total Portfolio</span>
+                                <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                            </div>
+                            <p class="text-2xl font-bold text-purple-600">${formatMoney(totalValue, "USD")}</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-gray-500 text-sm">Local Currency</span>
+                                <i class="fas fa-map-marker-alt text-green-500 text-xl"></i>
+                            </div>
+                            <p class="text-2xl font-bold text-green-600">${localHolding.currency ? formatMoney(localHolding.balance, localHolding.currency) : 'Not set'}</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-gray-500 text-sm">Exchange Fee</span>
+                                <i class="fas fa-percent text-blue-500 text-xl"></i>
+                            </div>
+                            <p class="text-2xl font-bold text-blue-600">${exchangeFeePercent}%</p>
+                        </div>
+                    </div>
+                    
+                    ${!localHolding.currency ? `
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 text-center">
+                            <i class="fas fa-info-circle text-yellow-500 text-3xl mb-2"></i>
+                            <p class="text-gray-600">No destination selected</p>
+                            <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Select Country →</button>
+                        </div>
+                    ` : `
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="font-bold text-lg mb-4 flex items-center">
+                                <i class="fas fa-location-dot text-purple-500 mr-2"></i>
+                                Current Destination: ${localHolding.country}
+                            </h3>
+                            <div class="bg-gradient-to-r ${countryInfo?.color || 'from-purple-500 to-pink-500'} rounded-xl p-4 text-white">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm opacity-90">Your ${localHolding.currency} Balance</p>
+                                        <p class="text-3xl font-bold">${formatMoney(localHolding.balance, localHolding.currency)}</p>
+                                    </div>
+                                    <div class="text-5xl">${countryInfo?.flag || '🌍'}</div>
+                                </div>
+                                <div class="mt-3 flex gap-3">
+                                    <button onclick="navigateTo('exchange')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Add More</button>
+                                    <button onclick="navigateTo('spend')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Spend Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+        
+        function renderExchangeSection() {
+            return `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-globe-africa text-purple-500 mr-2"></i>
+                            Step 1: Select Your Destination
+                        </h2>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                            ${countries.map(country => `
+                                <button onclick="selectCountry('${country.name}', '${country.currency}')" 
+                                    class="p-4 rounded-xl text-center transition-all ${localHolding.currency === country.currency ? 'gradient-primary text-white shadow-lg' : 'bg-gray-50 hover:bg-purple-50'}">
+                                    <span class="text-3xl block mb-2">${country.flag}</span>
+                                    <p class="font-semibold text-sm">${country.name}</p>
+                                    <p class="text-xs ${localHolding.currency === country.currency ? 'text-white/80' : 'text-gray-500'}">${country.currency}</p>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-exchange-alt text-blue-500 mr-2"></i>
+                            Step 2: Exchange USD to Local Currency
+                        </h2>
+                        
+                        ${!localHolding.currency ? `
+                            <div class="bg-blue-50 rounded-xl p-8 text-center">
+                                <i class="fas fa-info-circle text-blue-500 text-3xl mb-2"></i>
+                                <p class="text-gray-600">Select a country above to continue</p>
+                            </div>
+                        ` : `
+                            <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl p-4 mb-6 text-white">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm opacity-90">Destination</p>
+                                        <p class="text-xl font-bold">${localHolding.country} (${localHolding.currency})</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm opacity-90">Live Rate</p>
+                                        <p class="text-lg font-bold">1 USD = ${localHolding.exchangeRate.toFixed(2)} ${localHolding.currency}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2 text-gray-700">Amount in USD</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold">$</span>
+                                        <input type="number" id="exchangeAmount" placeholder="0.00" class="w-full pl-8 pr-4 py-3 border-2 rounded-xl input-focus">
+                                    </div>
+                                </div>
+                                
+                                <div id="exchangePreview" class="bg-gray-50 rounded-xl p-4 hidden">
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Amount:</span>
+                                            <span id="previewAmount" class="font-semibold"></span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Exchange Fee (${exchangeFeePercent}%):</span>
+                                            <span id="previewFee" class="text-red-500"></span>
+                                        </div>
+                                        <div class="flex justify-between text-lg font-bold pt-2 border-t">
+                                            <span>You receive:</span>
+                                            <span id="previewReceive" class="text-green-600"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-3">
+                                    <button onclick="executeExchange()" class="flex-1 btn-primary text-white py-3 rounded-xl font-bold shadow-lg">
+                                        <i class="fas fa-exchange-alt mr-2"></i>Exchange Now
+                                    </button>
+                                    <button onclick="quickExchange(100)" class="bg-gray-100 px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">$100</button>
+                                    <button onclick="quickExchange(200)" class="bg-gray-100 px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">$200</button>
+                                    <button onclick="quickExchange(500)" class="bg-gray-100 px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">$500</button>
+                                </div>
+                                
+                                <div class="bg-yellow-50 rounded-xl p-3 text-xs text-yellow-800">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Your Main Account Balance: ${formatMoney(mainAccount.balance, "USD")}
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderSpendSection() {
+            let countryInfo = countries.find(c => c.currency === localHolding.currency);
+            
+            return `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-credit-card text-green-500 mr-2"></i>
+                            Spend Your Local Currency
+                        </h2>
+                        
+                        ${!localHolding.currency ? `
+                            <div class="bg-yellow-50 rounded-xl p-8 text-center">
+                                <i class="fas fa-info-circle text-yellow-500 text-3xl mb-2"></i>
+                                <p class="text-gray-600">No destination selected</p>
+                                <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Select Country →</button>
+                            </div>
+                        ` : localHolding.balance === 0 ? `
+                            <div class="bg-yellow-50 rounded-xl p-8 text-center">
+                                <i class="fas fa-info-circle text-yellow-500 text-3xl mb-2"></i>
+                                <p class="text-gray-600">No ${localHolding.currency} balance</p>
+                                <p class="text-sm text-gray-500 mt-1">Exchange USD to ${localHolding.currency} first</p>
+                                <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Exchange Now →</button>
+                            </div>
+                        ` : `
+                            <!-- Balance Display -->
+                            <div class="gradient-success rounded-2xl p-6 text-white mb-6">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-sm opacity-90 mb-1">Available to Spend</p>
+                                        <p class="text-4xl font-bold">${formatMoney(localHolding.balance, localHolding.currency)}</p>
+                                        <p class="text-sm opacity-80 mt-2">≈ ${formatMoney(localHolding.balance / localHolding.exchangeRate, "USD")} USD</p>
+                                    </div>
+                                    <div class="bg-white/20 rounded-2xl p-4 text-center">
+                                        <div class="text-5xl">${countryInfo?.flag || '🌍'}</div>
+                                        <p class="text-sm mt-1 font-semibold">${localHolding.country}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Payment Form -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2 text-gray-700">🏪 Merchant Name *</label>
+                                    <input type="text" id="merchantName" placeholder="e.g., Airport Cafe, Serena Hotel, Taxi Driver" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2 text-gray-700">💰 Amount (${localHolding.currency}) *</label>
+                                    <input type="number" id="spendAmount" placeholder="0.00" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2 text-gray-700">📝 Description (Optional)</label>
+                                    <input type="text" id="spendDesc" placeholder="e.g., Lunch, Hotel, Shopping" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
+                                </div>
+                                
+                                <button id="payNowButton" class="w-full btn-success text-white py-4 rounded-xl font-bold text-lg shadow-xl hover-lift">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    PAY NOW
+                                </button>
+                                
+                                <div class="bg-blue-50 rounded-xl p-3 text-xs text-blue-800">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Enter merchant name and amount, then click PAY NOW
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                    
+                    <!-- Quick Spend Suggestions -->
+                    ${localHolding.currency && localHolding.balance > 0 ? `
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="font-bold text-lg mb-4 flex items-center">
+                                <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                                Quick Spend in ${localHolding.country}
+                            </h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                ${localHolding.currency === 'UGX' ? `
+                                    <button onclick="quickSpend(25000, 'Local Restaurant', 'Meal')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🍽️</div>
+                                        <div class="font-semibold text-sm">Meal</div>
+                                        <div class="text-xs text-gray-500">25,000 UGX</div>
+                                    </button>
+                                    <button onclick="quickSpend(50000, 'Airport Taxi', 'Transport')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🚕</div>
+                                        <div class="font-semibold text-sm">Airport Taxi</div>
+                                        <div class="text-xs text-gray-500">50,000 UGX</div>
+                                    </button>
+                                    <button onclick="quickSpend(250000, 'Hotel', 'Accommodation')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🏨</div>
+                                        <div class="font-semibold text-sm">Hotel Night</div>
+                                        <div class="text-xs text-gray-500">250,000 UGX</div>
+                                    </button>
+                                    <button onclick="quickSpend(10000, 'Cafe', 'Coffee')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">☕</div>
+                                        <div class="font-semibold text-sm">Coffee</div>
+                                        <div class="text-xs text-gray-500">10,000 UGX</div>
+                                    </button>
+                                ` : localHolding.currency === 'KES' ? `
+                                    <button onclick="quickSpend(1000, 'Restaurant', 'Meal')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🍽️</div>
+                                        <div>Meal</div>
+                                        <div class="text-xs">1,000 KES</div>
+                                    </button>
+                                    <button onclick="quickSpend(500, 'Taxi', 'Transport')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🚕</div>
+                                        <div>Taxi</div>
+                                        <div class="text-xs">500 KES</div>
+                                    </button>
+                                    <button onclick="quickSpend(8000, 'Hotel', 'Stay')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🏨</div>
+                                        <div>Hotel</div>
+                                        <div class="text-xs">8,000 KES</div>
+                                    </button>
+                                ` : localHolding.currency === 'EUR' ? `
+                                    <button onclick="quickSpend(5, 'Cafe', 'Coffee')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">☕</div>
+                                        <div>Coffee</div>
+                                        <div class="text-xs">€5</div>
+                                    </button>
+                                    <button onclick="quickSpend(25, 'Restaurant', 'Dinner')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🍝</div>
+                                        <div>Dinner</div>
+                                        <div class="text-xs">€25</div>
+                                    </button>
+                                    <button onclick="quickSpend(120, 'Hotel', 'Night')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
+                                        <div class="text-2xl mb-2">🏨</div>
+                                        <div>Hotel</div>
+                                        <div class="text-xs">€120</div>
+                                    </button>
+                                ` : `
+                                    <p class="text-center text-gray-500 col-span-4 p-4">Enter amount above and click PAY NOW!</p>
+                                `}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${localHolding.currency && localHolding.balance > 0 ? `
+                        <div class="bg-white rounded-2xl p-4 shadow-lg text-center">
+                            <p class="text-sm text-gray-600 mb-2">Leaving ${localHolding.country}?</p>
+                            <button onclick="showConvertBackModal()" class="text-orange-600 hover:text-orange-700 text-sm font-semibold">
+                                <i class="fas fa-undo-alt mr-1"></i>Convert remaining ${localHolding.currency} back to USD
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        function renderHistorySection() {
+            return `
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-history text-purple-500 mr-2"></i>
+                        Transaction History
+                    </h2>
+                    
+                    ${transactions.length === 0 ? `
+                        <div class="text-center py-12">
+                            <i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i>
+                            <p class="text-gray-500">No transactions yet</p>
+                        </div>
+                    ` : `
+                        <div class="space-y-3 max-h-96 overflow-y-auto">
+                            ${transactions.map(tx => `
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:shadow-md transition">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full 
+                                            ${tx.type === 'DEPOSIT' ? 'bg-green-100' : tx.type === 'EXCHANGE' ? 'bg-purple-100' : tx.type === 'PAYMENT' ? 'bg-blue-100' : 'bg-orange-100'} 
+                                            flex items-center justify-center">
+                                            <i class="fas 
+                                                ${tx.type === 'DEPOSIT' ? 'fa-arrow-down text-green-500' : tx.type === 'EXCHANGE' ? 'fa-exchange-alt text-purple-500' : tx.type === 'PAYMENT' ? 'fa-credit-card text-blue-500' : 'fa-undo-alt text-orange-500'}">
+                                            </i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-sm">${tx.type}</p>
+                                            <p class="text-xs text-gray-500">${formatDate(tx.date)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium">${tx.details.substring(0, 40)}${tx.details.length > 40 ? '...' : ''}</p>
+                                        <p class="text-xs text-green-500">Completed</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                    
+                    <div class="mt-6 pt-4 border-t text-center">
+                        <button onclick="resetAllData()" class="bg-red-500 text-white px-6 py-2 rounded-xl text-sm hover:bg-red-600 transition">
+                            <i class="fas fa-trash mr-2"></i>Reset All Data
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // ==================== ACTIONS ====================
+        
+        function showDepositModal() {
+            let amount = prompt("Enter amount in USD to deposit:", "1000");
+            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                let bank = prompt("Bank name:", "Bank Transfer");
+                depositToMainAccount(parseFloat(amount), bank || "Bank Transfer");
+            }
+        }
+        
+        function showWithdrawModal() {
+            let amount = prompt("Enter amount in USD to withdraw:", "500");
+            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                if (mainAccount.balance >= parseFloat(amount)) {
+                    mainAccount.balance -= parseFloat(amount);
+                    addTransaction("WITHDRAWAL", `Withdrew ${formatMoney(parseFloat(amount), "USD")} to bank`, parseFloat(amount), "USD");
+                    showToast(`✅ Withdrew ${formatMoney(parseFloat(amount), "USD")}`, "success");
+                } else {
+                    showToast("Insufficient balance", "error");
+                }
+            }
+        }
+        
+        function showConvertBackModal() {
+            if (confirm(`Convert ${formatMoney(localHolding.balance, localHolding.currency)} back to USD? (${exchangeFeePercent}% fee applies)`)) {
+                convertBackToUSD();
+            }
+        }
+        
+        function executeExchange() {
+            let amount = parseFloat(document.getElementById('exchangeAmount')?.value);
+            if (isNaN(amount) || amount <= 0) {
+                showToast("Please enter a valid amount", "error");
+                return;
+            }
+            exchangeToLocal(amount);
+            document.getElementById('exchangeAmount').value = '';
+            document.getElementById('exchangePreview').classList.add('hidden');
+        }
+        
+        function executeSpend() {
+            let merchant = document.getElementById('merchantName')?.value;
+            let amount = parseFloat(document.getElementById('spendAmount')?.value);
+            let description = document.getElementById('spendDesc')?.value;
+            
+            spendLocal(amount, merchant, description);
+            
+            // Clear form after successful payment
+            if (document.getElementById('merchantName')) {
+                document.getElementById('merchantName').value = '';
+                document.getElementById('spendAmount').value = '';
+                document.getElementById('spendDesc').value = '';
+            }
+        }
+        
+        function quickExchange(usdAmount) {
+            exchangeToLocal(usdAmount);
+        }
+        
+        function quickSpend(amount, merchant, description) {
+            spendLocal(amount, merchant, description);
+        }
+        
+        function setupExchangePreview() {
+            let amountInput = document.getElementById('exchangeAmount');
+            if (amountInput) {
+                amountInput.addEventListener('input', function() {
+                    let amount = parseFloat(this.value);
+                    let previewDiv = document.getElementById('exchangePreview');
+                    
+                    if (localHolding.currency && amount > 0) {
+                        let rate = localHolding.exchangeRate;
+                        let fee = amount * (exchangeFeePercent / 100);
+                        let netAmount = amount - fee;
+                        let localAmount = netAmount * rate;
+                        
+                        document.getElementById('previewAmount').innerHTML = `${formatMoney(amount, "USD")}`;
+                        document.getElementById('previewFee').innerHTML = `${formatMoney(fee, "USD")}`;
+                        document.getElementById('previewReceive').innerHTML = `${formatMoney(localAmount, localHolding.currency)}`;
+                        previewDiv.classList.remove('hidden');
+                    } else {
+                        previewDiv.classList.add('hidden');
+                    }
+                });
+            }
+        }
+        
+        // ==================== NAVIGATION ====================
+        
+        function navigateTo(section) {
+            currentSection = section;
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-gray-600', 'bg-transparent');
+            });
+            let activeBtn = document.getElementById(`nav-${section}`);
+            if (activeBtn) {
+                activeBtn.classList.add('tab-active');
+                activeBtn.classList.remove('text-gray-600');
+            }
+            
+            renderCurrentSection();
+        }
+        
+        function renderCurrentSection() {
+            let contentArea = document.getElementById('content-area');
+            if (!contentArea) return;
+            
+            switch(currentSection) {
+                case 'main':
+                    contentArea.innerHTML = renderMainSection();
+                    break;
+                case 'exchange':
+                    contentArea.innerHTML = renderExchangeSection();
+                    setTimeout(setupExchangePreview, 100);
+                    break;
+                case 'spend':
+                    contentArea.innerHTML = renderSpendSection();
+                    break;
+                case 'history':
+                    contentArea.innerHTML = renderHistorySection();
+                    break;
+                default:
+                    contentArea.innerHTML = renderMainSection();
+            }
+        }
+        
+        function openMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('hidden');
+        }
+        
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.add('hidden');
+        }
+        
+        // ==================== INIT ====================
+        
+        function init() {
+            loadFromLocalStorage();
+            document.getElementById('userNameDisplay').innerText = user.name;
+            renderCurrentSection();
+            
+            // Update live rates every 10 seconds
+            setInterval(() => {
+                updateLiveRates();
+                if (currentSection === 'exchange') {
+                    setupExchangePreview();
+                }
+                if (currentSection === 'main') {
+                    renderCurrentSection();
+                }
+            }, 10000);
+        }
+        
+        // Make functions global
+        window.navigateTo = navigateTo;
+        window.selectCountry = selectCountry;
+        window.showDepositModal = showDepositModal;
+        window.showWithdrawModal = showWithdrawModal;
+        window.showConvertBackModal = showConvertBackModal;
+        window.executeExchange = executeExchange;
+        window.executeSpend = executeSpend;
+        window.quickExchange = quickExchange;
+        window.quickSpend = quickSpend;
+        window.resetAllData = resetAllData;
+        window.openMobileMenu = openMobileMenu;
+        window.closeMobileMenu = closeMobileMenu;
+        
+        init();
+    </script>
+</body>
+</html>
