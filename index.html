@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>PaySolver Premium - Live Forex Bureau</title>
+    <title>PaySolver - Cross-Currency Payment Solution</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -21,11 +21,18 @@
         
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .animate-slide-up { animation: slideUp 0.5s ease-out; }
         .animate-pulse { animation: pulse 2s infinite; }
+        .animate-spin-slow { animation: spin 1s linear infinite; }
+        
         .toast-notification { animation: slideUp 0.3s ease-out; }
         
         .hover-lift { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -49,6 +56,25 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
+        .step-complete {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+        }
+        
+        .step-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+        
+        .step-pending {
+            background: white;
+            border: 2px solid #d1d5db;
+            color: #9ca3af;
+        }
+        
         .rate-up { color: #10b981; animation: pulse 0.5s ease; }
         .rate-down { color: #ef4444; animation: pulse 0.5s ease; }
         
@@ -57,7 +83,7 @@
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
         
         @media (max-width: 640px) {
-            .responsive-grid { grid-template-columns: 1fr; }
+            .step-text { display: none; }
         }
     </style>
 </head>
@@ -80,19 +106,19 @@
             <div class="space-y-3">
                 <button onclick="navigateTo('main'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
                     <i class="fas fa-home text-purple-600 w-5"></i>
-                    <span>Main Account</span>
+                    <span>Convert & Exchange</span>
                 </button>
                 <button onclick="navigateTo('exchange'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
                     <i class="fas fa-exchange-alt text-blue-600 w-5"></i>
-                    <span>Exchange</span>
+                    <span>Exchange Currency</span>
                 </button>
                 <button onclick="navigateTo('spend'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
                     <i class="fas fa-credit-card text-green-600 w-5"></i>
-                    <span>Spend / Pay</span>
+                    <span>Pay / Transfer</span>
                 </button>
                 <button onclick="navigateTo('history'); closeMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-purple-50 transition flex items-center space-x-3">
                     <i class="fas fa-history text-orange-600 w-5"></i>
-                    <span>History</span>
+                    <span>Transaction History</span>
                 </button>
             </div>
         </div>
@@ -115,19 +141,19 @@
                         <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                             PaySolver
                         </h1>
-                        <p class="text-xs text-gray-500">Live Forex Exchange Bureau</p>
+                        <p class="text-xs text-gray-500">Cross-Currency Payment Solution</p>
                     </div>
                 </div>
                 
                 <div class="hidden lg:flex space-x-2">
                     <button onclick="navigateTo('main')" id="nav-main" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all tab-active">
-                        <i class="fas fa-home mr-2"></i>Main Account
+                        <i class="fas fa-home mr-2"></i>Convert
                     </button>
                     <button onclick="navigateTo('exchange')" id="nav-exchange" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
                         <i class="fas fa-exchange-alt mr-2"></i>Exchange
                     </button>
                     <button onclick="navigateTo('spend')" id="nav-spend" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
-                        <i class="fas fa-credit-card mr-2"></i>Spend / Pay
+                        <i class="fas fa-credit-card mr-2"></i>Pay
                     </button>
                     <button onclick="navigateTo('history')" id="nav-history" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
                         <i class="fas fa-history mr-2"></i>History
@@ -140,8 +166,73 @@
                     </div>
                     <div class="hidden sm:block">
                         <p class="text-sm font-semibold" id="userNameDisplay">Michael Traveler</p>
-                        <p class="text-xs text-gray-500">Premium Member</p>
+                        <p class="text-xs text-gray-500">Verified User</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clear Explanation Section -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 sm:p-6 mb-6 shadow-lg animate-slide-up">
+            <div class="flex items-start space-x-3">
+                <div class="gradient-primary w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-info-circle text-white text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-800">About PaySolver</h3>
+                    <p class="text-sm text-gray-600 mt-1">
+                        PaySolver is a prototype that demonstrates seamless cross-currency payments using mobile money systems. 
+                        This platform allows you to convert USD to local currencies, exchange at live forex rates, 
+                        and make instant payments to merchants - all from one simple interface.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP PROGRESS CIRCLES - FIXED AND RESTORED -->
+        <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 animate-slide-up">
+            <h3 class="font-bold text-sm text-gray-500 mb-4 text-center">How to Use PaySolver</h3>
+            <div class="flex items-center justify-between">
+                <!-- Step 1 -->
+                <div class="flex-1 text-center">
+                    <div id="step1Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                        <i class="fas fa-check text-xs sm:text-sm"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm font-semibold mt-2">1. Deposit</p>
+                    <p class="text-xs text-gray-400 hidden sm:block">Add USD to wallet</p>
+                </div>
+                <div class="flex-1 h-1 bg-gray-200 mx-2">
+                    <div id="stepProgress1" class="h-full bg-green-500 rounded-full transition-all" style="width: 100%"></div>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex-1 text-center">
+                    <div id="step2Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                        <span class="text-sm sm:text-base font-bold">2</span>
+                    </div>
+                    <p class="text-xs sm:text-sm font-semibold mt-2">2. Select Country</p>
+                    <p class="text-xs text-gray-400 hidden sm:block">Choose destination</p>
+                </div>
+                <div class="flex-1 h-1 bg-gray-200 mx-2">
+                    <div id="stepProgress2" class="h-full bg-green-500 rounded-full transition-all" style="width: 0%"></div>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex-1 text-center">
+                    <div id="step3Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                        <span class="text-sm sm:text-base font-bold">3</span>
+                    </div>
+                    <p class="text-xs sm:text-sm font-semibold mt-2">3. Exchange</p>
+                    <p class="text-xs text-gray-400 hidden sm:block">USD → Local</p>
+                </div>
+                <div class="flex-1 h-1 bg-gray-200 mx-2">
+                    <div id="stepProgress3" class="h-full bg-green-500 rounded-full transition-all" style="width: 0%"></div>
+                </div>
+                <!-- Step 4 -->
+                <div class="flex-1 text-center">
+                    <div id="step4Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                        <span class="text-sm sm:text-base font-bold">4</span>
+                    </div>
+                    <p class="text-xs sm:text-sm font-semibold mt-2">4. Pay</p>
+                    <p class="text-xs text-gray-400 hidden sm:block">Complete payment</p>
                 </div>
             </div>
         </div>
@@ -151,9 +242,9 @@
             <div class="flex items-center justify-between mb-3">
                 <h3 class="font-bold text-sm flex items-center">
                     <i class="fas fa-chart-line text-green-500 mr-2 animate-pulse"></i>
-                    Live Forex Exchange Rates (1 USD = ?)
+                    Live Exchange Rates (1 USD = ?)
                 </h3>
-                <span class="text-xs text-gray-400">Updated just now</span>
+                <span class="text-xs text-gray-400" id="rateTimestamp">Updated just now</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
                 <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
@@ -191,16 +282,30 @@
 
         <!-- Dynamic Content -->
         <div id="content-area" class="animate-slide-up"></div>
+
+        <!-- DISCLAIMER FOOTER - IMPORTANT FOR TRUST -->
+        <div class="mt-8 text-center">
+            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-3">
+                <p class="text-xs text-yellow-800">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    This is a prototype built for demonstration purposes. 
+                    Real transactions would require integration with licensed financial institutions and mobile money providers.
+                </p>
+            </div>
+            <p class="text-xs text-gray-400 mt-4">
+                © 2026 PaySolver - Cross-Currency Payment Solution | Secure & Reliable dev allan
+            </p>
+        </div>
     </div>
 
     <script>
         // ==================== STATE ====================
         
-        let user = { name: "Michael Traveler", email: "michael@example.com" };
+        let user = { name: "lyesa allan", email: "alanwel32@gmail.com" };
         
         let mainAccount = {
             currency: "USD",
-            balance: 10000.00,  // Demo balance
+            balance: 10000.00,
             accountNumber: "PS-" + Math.floor(Math.random() * 1000000000)
         };
         
@@ -233,10 +338,9 @@
         
         let transactions = [];
         let currentSection = "main";
-        let exchangeFeePercent = 1; // 1% fee
+        let exchangeFeePercent = 1;
         
-        // ==================== HELPER FUNCTIONS ====================
-        
+        // Helper Functions
         function formatMoney(amount, currency) {
             let found = countries.find(c => c.currency === currency);
             let symbol = found ? found.symbol : currency;
@@ -250,6 +354,10 @@
             return new Date(dateString).toLocaleString();
         }
         
+        function generateTransactionId() {
+            return 'TXN' + Date.now() + Math.floor(Math.random() * 10000);
+        }
+        
         function showToast(message, type = "success") {
             const toast = document.createElement('div');
             toast.className = `toast-notification fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg text-white text-sm ${type === 'success' ? 'gradient-success' : 'gradient-warning'}`;
@@ -258,32 +366,69 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
+        function showProcessingToast(message) {
+            const toast = document.createElement('div');
+            toast.id = 'processingToast';
+            toast.className = `toast-notification fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg text-white text-sm bg-gray-700`;
+            toast.innerHTML = `<i class="fas fa-spinner animate-spin-slow mr-2"></i>${message}`;
+            document.body.appendChild(toast);
+            return toast;
+        }
+        
         function addTransaction(type, details, amount, currency) {
-            transactions.unshift({
-                id: Date.now(),
+            let transaction = {
+                id: generateTransactionId(),
                 type: type,
                 details: details,
                 amount: amount,
                 currency: currency,
                 date: new Date().toISOString(),
+                timestamp: new Date().toLocaleString(),
                 status: "completed"
-            });
+            };
+            transactions.unshift(transaction);
             if (transactions.length > 50) transactions.pop();
             saveToLocalStorage();
+            updateStepProgress();
             renderCurrentSection();
         }
         
+        function updateStepProgress() {
+            // Step 1 always complete (deposit done)
+            document.getElementById('step1Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all";
+            document.getElementById('step1Circle').innerHTML = '<i class="fas fa-check text-xs sm:text-sm"></i>';
+            document.getElementById('stepProgress1').style.width = '100%';
+            
+            // Step 2: Country selected?
+            if (localHolding.currency) {
+                document.getElementById('step2Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all";
+                document.getElementById('step2Circle').innerHTML = '<i class="fas fa-check text-xs sm:text-sm"></i>';
+                document.getElementById('stepProgress2').style.width = '100%';
+                
+                // Step 3: Has local balance?
+                if (localHolding.balance > 0) {
+                    document.getElementById('step3Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all";
+                    document.getElementById('step3Circle').innerHTML = '<i class="fas fa-check text-xs sm:text-sm"></i>';
+                    document.getElementById('stepProgress3').style.width = '100%';
+                } else {
+                    document.getElementById('step3Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all animate-pulse";
+                    document.getElementById('step3Circle').innerHTML = '<span class="text-sm sm:text-base font-bold">3</span>';
+                }
+            } else {
+                document.getElementById('step2Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all animate-pulse";
+                document.getElementById('step2Circle').innerHTML = '<span class="text-sm sm:text-base font-bold">2</span>';
+            }
+        }
+        
         function updateLiveRates() {
-            // Simulate live rate updates with small fluctuations
             Object.keys(exchangeRates).forEach(currency => {
                 let fluctuation = (Math.random() - 0.5) * 0.002;
                 let newRate = exchangeRates[currency] * (1 + fluctuation);
                 exchangeRates[currency] = Math.max(0.01, newRate);
                 
-                // Update displayed rate
                 let rateElement = document.getElementById(`rate-${currency}`);
                 if (rateElement) {
-                    let oldValue = parseFloat(rateElement.innerText);
+                    let oldValue = parseFloat(rateElement.innerText.replace(/,/g, ''));
                     rateElement.innerText = exchangeRates[currency].toFixed(2);
                     if (exchangeRates[currency] > oldValue) {
                         rateElement.classList.add('rate-up');
@@ -295,23 +440,31 @@
                 }
             });
             
-            // Update local holding rate if exists
             if (localHolding.currency) {
                 localHolding.exchangeRate = exchangeRates[localHolding.currency];
             }
+            
+            document.getElementById('rateTimestamp').innerText = 'Updated ' + new Date().toLocaleTimeString();
         }
         
-        // ==================== CORE ACTIONS ====================
+        // ==================== CORE ACTIONS WITH PROCESSING DELAY ====================
         
         function depositToMainAccount(amount, bankName = "Bank Transfer") {
             if (amount <= 0) {
                 showToast("Please enter a valid amount", "error");
                 return false;
             }
-            mainAccount.balance += amount;
-            addTransaction("DEPOSIT", `Deposited ${formatMoney(amount, "USD")} from ${bankName}`, amount, "USD");
-            showToast(`✅ ${formatMoney(amount, "USD")} added to your main account!`, "success");
-            saveToLocalStorage();
+            
+            let toast = showProcessingToast("Processing deposit...");
+            
+            setTimeout(() => {
+                toast.remove();
+                mainAccount.balance += amount;
+                addTransaction("DEPOSIT", `Deposited ${formatMoney(amount, "USD")} from ${bankName}`, amount, "USD");
+                showToast(`✅ ${formatMoney(amount, "USD")} added to your account!`, "success");
+                saveToLocalStorage();
+            }, 1500);
+            
             return true;
         }
         
@@ -321,6 +474,7 @@
             localHolding.exchangeRate = exchangeRates[currencyCode];
             addTransaction("COUNTRY_SELECTED", `Destination: ${countryName} (${currencyCode})`, 0, currencyCode);
             showToast(`📍 Destination set to ${countryName}`, "success");
+            updateStepProgress();
             renderCurrentSection();
         }
         
@@ -334,55 +488,62 @@
                 return false;
             }
             
-            let rate = localHolding.exchangeRate;
-            let fee = usdAmount * (exchangeFeePercent / 100);
-            let netUsd = usdAmount - fee;
-            let localAmount = netUsd * rate;
+            let toast = showProcessingToast("Processing exchange...");
             
-            mainAccount.balance -= usdAmount;
-            localHolding.balance += localAmount;
+            setTimeout(() => {
+                let rate = localHolding.exchangeRate;
+                let fee = usdAmount * (exchangeFeePercent / 100);
+                let netUsd = usdAmount - fee;
+                let localAmount = netUsd * rate;
+                
+                mainAccount.balance -= usdAmount;
+                localHolding.balance += localAmount;
+                
+                addTransaction("EXCHANGE", `Exchanged ${formatMoney(usdAmount, "USD")} → ${formatMoney(localAmount, localHolding.currency)} (Fee: ${formatMoney(fee, "USD")})`, usdAmount, "USD");
+                showToast(`✅ Exchanged to ${formatMoney(localAmount, localHolding.currency)}`, "success");
+                saveToLocalStorage();
+                toast.remove();
+                updateStepProgress();
+                renderCurrentSection();
+            }, 1500);
             
-            addTransaction("EXCHANGE", `Exchanged ${formatMoney(usdAmount, "USD")} → ${formatMoney(localAmount, localHolding.currency)} (Fee: ${formatMoney(fee, "USD")})`, usdAmount, "USD");
-            showToast(`✅ Exchanged to ${formatMoney(localAmount, localHolding.currency)}`, "success");
-            saveToLocalStorage();
-            renderCurrentSection();
             return true;
         }
         
-        // THE PAY/SPEND FUNCTION - FULLY WORKING
         function spendLocal(amount, merchant, description = "") {
-            // Validation checks
             if (!localHolding.currency) {
-                showToast("Please select a destination country first in Exchange tab!", "error");
+                showToast("Please select a destination country first!", "error");
                 return false;
             }
-            
             if (localHolding.balance <= 0) {
-                showToast(`You have no ${localHolding.currency} balance. Please exchange USD to ${localHolding.currency} first!`, "error");
+                showToast(`No ${localHolding.currency} balance. Exchange USD first!`, "error");
                 return false;
             }
-            
             if (amount <= 0) {
                 showToast("Please enter a valid amount", "error");
                 return false;
             }
-            
             if (amount > localHolding.balance) {
                 showToast(`Insufficient balance! You have ${formatMoney(localHolding.balance, localHolding.currency)}`, "error");
                 return false;
             }
-            
             if (!merchant || merchant.trim() === "") {
                 showToast("Please enter merchant name", "error");
                 return false;
             }
             
-            // Process payment
-            localHolding.balance -= amount;
-            addTransaction("PAYMENT", `Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}${description ? ` (${description})` : ''}`, amount, localHolding.currency);
-            showToast(`✅ Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}`, "success");
-            saveToLocalStorage();
-            renderCurrentSection();
+            let toast = showProcessingToast("Processing payment...");
+            
+            setTimeout(() => {
+                localHolding.balance -= amount;
+                addTransaction("PAYMENT", `Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}${description ? ` (${description})` : ''}`, amount, localHolding.currency);
+                showToast(`✅ Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}`, "success");
+                saveToLocalStorage();
+                toast.remove();
+                updateStepProgress();
+                renderCurrentSection();
+            }, 1500);
+            
             return true;
         }
         
@@ -392,19 +553,26 @@
                 return false;
             }
             
-            let rate = localHolding.exchangeRate;
-            let usdAmount = localHolding.balance / rate;
-            let fee = usdAmount * (exchangeFeePercent / 100);
-            let netUsd = usdAmount - fee;
+            let toast = showProcessingToast("Converting back to USD...");
             
-            mainAccount.balance += netUsd;
-            let convertedAmount = localHolding.balance;
-            localHolding.balance = 0;
+            setTimeout(() => {
+                let rate = localHolding.exchangeRate;
+                let usdAmount = localHolding.balance / rate;
+                let fee = usdAmount * (exchangeFeePercent / 100);
+                let netUsd = usdAmount - fee;
+                
+                mainAccount.balance += netUsd;
+                let convertedAmount = localHolding.balance;
+                localHolding.balance = 0;
+                
+                addTransaction("CONVERT_BACK", `Converted ${formatMoney(convertedAmount, localHolding.currency)} back to ${formatMoney(netUsd, "USD")} (Fee: ${formatMoney(fee, "USD")})`, netUsd, "USD");
+                showToast(`✅ Converted back to ${formatMoney(netUsd, "USD")}`, "success");
+                saveToLocalStorage();
+                toast.remove();
+                updateStepProgress();
+                renderCurrentSection();
+            }, 1500);
             
-            addTransaction("CONVERT_BACK", `Converted ${formatMoney(convertedAmount, localHolding.currency)} back to ${formatMoney(netUsd, "USD")} (Fee: ${formatMoney(fee, "USD")})`, netUsd, "USD");
-            showToast(`✅ Converted back to ${formatMoney(netUsd, "USD")}`, "success");
-            saveToLocalStorage();
-            renderCurrentSection();
             return true;
         }
         
@@ -453,12 +621,12 @@
                     <div class="gradient-primary rounded-3xl p-6 sm:p-8 text-white shadow-2xl hover-lift">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-sm opacity-80 mb-1">Main Account Balance</p>
+                                <p class="text-sm opacity-80 mb-1">Main Wallet Balance</p>
                                 <p class="text-4xl sm:text-5xl font-bold">${formatMoney(mainAccount.balance, "USD")}</p>
                                 <p class="text-xs opacity-70 mt-2">Account: ${mainAccount.accountNumber}</p>
                             </div>
                             <div class="bg-white/20 rounded-2xl p-3">
-                                <i class="fas fa-credit-card text-3xl"></i>
+                                <i class="fas fa-wallet text-3xl"></i>
                             </div>
                         </div>
                         <div class="mt-6 flex flex-wrap gap-3">
@@ -474,7 +642,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
                             <div class="flex items-center justify-between mb-3">
-                                <span class="text-gray-500 text-sm">Total Portfolio</span>
+                                <span class="text-gray-500 text-sm">Total Value</span>
                                 <i class="fas fa-chart-line text-purple-500 text-xl"></i>
                             </div>
                             <p class="text-2xl font-bold text-purple-600">${formatMoney(totalValue, "USD")}</p>
@@ -516,8 +684,8 @@
                                     <div class="text-5xl">${countryInfo?.flag || '🌍'}</div>
                                 </div>
                                 <div class="mt-3 flex gap-3">
-                                    <button onclick="navigateTo('exchange')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Add More</button>
-                                    <button onclick="navigateTo('spend')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Spend Now</button>
+                                    <button onclick="navigateTo('exchange')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Exchange More</button>
+                                    <button onclick="navigateTo('spend')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Pay Now</button>
                                 </div>
                             </div>
                         </div>
@@ -532,7 +700,7 @@
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
                         <h2 class="text-xl font-bold mb-4 flex items-center">
                             <i class="fas fa-globe-africa text-purple-500 mr-2"></i>
-                            Step 1: Select Your Destination
+                            Step 2: Select Your Destination
                         </h2>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                             ${countries.map(country => `
@@ -549,7 +717,7 @@
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
                         <h2 class="text-xl font-bold mb-4 flex items-center">
                             <i class="fas fa-exchange-alt text-blue-500 mr-2"></i>
-                            Step 2: Exchange USD to Local Currency
+                            Step 3: Exchange USD to Local Currency
                         </h2>
                         
                         ${!localHolding.currency ? `
@@ -608,7 +776,7 @@
                                 
                                 <div class="bg-yellow-50 rounded-xl p-3 text-xs text-yellow-800">
                                     <i class="fas fa-info-circle mr-1"></i>
-                                    Your Main Account Balance: ${formatMoney(mainAccount.balance, "USD")}
+                                    Your Main Balance: ${formatMoney(mainAccount.balance, "USD")}
                                 </div>
                             </div>
                         `}
@@ -625,7 +793,7 @@
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
                         <h2 class="text-xl font-bold mb-4 flex items-center">
                             <i class="fas fa-credit-card text-green-500 mr-2"></i>
-                            Spend Your Local Currency
+                            Step 4: Pay / Transfer
                         </h2>
                         
                         ${!localHolding.currency ? `
@@ -642,11 +810,10 @@
                                 <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Exchange Now →</button>
                             </div>
                         ` : `
-                            <!-- Balance Display -->
                             <div class="gradient-success rounded-2xl p-6 text-white mb-6">
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <p class="text-sm opacity-90 mb-1">Available to Spend</p>
+                                        <p class="text-sm opacity-90 mb-1">Available to Pay</p>
                                         <p class="text-4xl font-bold">${formatMoney(localHolding.balance, localHolding.currency)}</p>
                                         <p class="text-sm opacity-80 mt-2">≈ ${formatMoney(localHolding.balance / localHolding.exchangeRate, "USD")} USD</p>
                                     </div>
@@ -657,10 +824,9 @@
                                 </div>
                             </div>
                             
-                            <!-- Payment Form -->
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-semibold mb-2 text-gray-700">🏪 Merchant Name *</label>
+                                    <label class="block text-sm font-semibold mb-2 text-gray-700">🏪 Merchant / Business Name *</label>
                                     <input type="text" id="merchantName" placeholder="e.g., Airport Cafe, Serena Hotel, Taxi Driver" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
                                 </div>
                                 
@@ -678,21 +844,15 @@
                                     <i class="fas fa-check-circle mr-2"></i>
                                     PAY NOW
                                 </button>
-                                
-                                <div class="bg-blue-50 rounded-xl p-3 text-xs text-blue-800">
-                                    <i class="fas fa-info-circle mr-1"></i>
-                                    Enter merchant name and amount, then click PAY NOW
-                                </div>
                             </div>
                         `}
                     </div>
                     
-                    <!-- Quick Spend Suggestions -->
                     ${localHolding.currency && localHolding.balance > 0 ? `
                         <div class="bg-white rounded-2xl p-6 shadow-lg">
                             <h3 class="font-bold text-lg mb-4 flex items-center">
                                 <i class="fas fa-bolt text-yellow-500 mr-2"></i>
-                                Quick Spend in ${localHolding.country}
+                                Quick Pay in ${localHolding.country}
                             </h3>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                 ${localHolding.currency === 'UGX' ? `
@@ -715,38 +875,6 @@
                                         <div class="text-2xl mb-2">☕</div>
                                         <div class="font-semibold text-sm">Coffee</div>
                                         <div class="text-xs text-gray-500">10,000 UGX</div>
-                                    </button>
-                                ` : localHolding.currency === 'KES' ? `
-                                    <button onclick="quickSpend(1000, 'Restaurant', 'Meal')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🍽️</div>
-                                        <div>Meal</div>
-                                        <div class="text-xs">1,000 KES</div>
-                                    </button>
-                                    <button onclick="quickSpend(500, 'Taxi', 'Transport')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🚕</div>
-                                        <div>Taxi</div>
-                                        <div class="text-xs">500 KES</div>
-                                    </button>
-                                    <button onclick="quickSpend(8000, 'Hotel', 'Stay')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🏨</div>
-                                        <div>Hotel</div>
-                                        <div class="text-xs">8,000 KES</div>
-                                    </button>
-                                ` : localHolding.currency === 'EUR' ? `
-                                    <button onclick="quickSpend(5, 'Cafe', 'Coffee')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">☕</div>
-                                        <div>Coffee</div>
-                                        <div class="text-xs">€5</div>
-                                    </button>
-                                    <button onclick="quickSpend(25, 'Restaurant', 'Dinner')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🍝</div>
-                                        <div>Dinner</div>
-                                        <div class="text-xs">€25</div>
-                                    </button>
-                                    <button onclick="quickSpend(120, 'Hotel', 'Night')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🏨</div>
-                                        <div>Hotel</div>
-                                        <div class="text-xs">€120</div>
                                     </button>
                                 ` : `
                                     <p class="text-center text-gray-500 col-span-4 p-4">Enter amount above and click PAY NOW!</p>
@@ -794,7 +922,8 @@
                                         </div>
                                         <div>
                                             <p class="font-semibold text-sm">${tx.type}</p>
-                                            <p class="text-xs text-gray-500">${formatDate(tx.date)}</p>
+                                            <p class="text-xs text-gray-500">${tx.timestamp || formatDate(tx.date)}</p>
+                                            <p class="text-xs text-gray-400">ID: ${tx.id}</p>
                                         </div>
                                     </div>
                                     <div class="text-right">
@@ -859,15 +988,7 @@
             let merchant = document.getElementById('merchantName')?.value;
             let amount = parseFloat(document.getElementById('spendAmount')?.value);
             let description = document.getElementById('spendDesc')?.value;
-            
             spendLocal(amount, merchant, description);
-            
-            // Clear form after successful payment
-            if (document.getElementById('merchantName')) {
-                document.getElementById('merchantName').value = '';
-                document.getElementById('spendAmount').value = '';
-                document.getElementById('spendDesc').value = '';
-            }
         }
         
         function quickExchange(usdAmount) {
@@ -956,16 +1077,13 @@
         function init() {
             loadFromLocalStorage();
             document.getElementById('userNameDisplay').innerText = user.name;
+            updateStepProgress();
             renderCurrentSection();
             
-            // Update live rates every 10 seconds
             setInterval(() => {
                 updateLiveRates();
                 if (currentSection === 'exchange') {
                     setupExchangePreview();
-                }
-                if (currentSection === 'main') {
-                    renderCurrentSection();
                 }
             }, 10000);
         }
