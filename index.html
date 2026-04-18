@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>PaySolver - Cross-Currency Payment Solution</title>
+    <title>PaySolver - Cross-Currency Payment Infrastructure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@
         
         .gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .gradient-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
-        .gradient-warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
         
         @keyframes slideUp {
             from { transform: translateY(20px); opacity: 0; }
@@ -55,28 +54,6 @@
             color: white;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
-        
-        .step-complete {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-            border: none;
-        }
-        
-        .step-active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: 3px solid #fff;
-            box-shadow: 0 0 0 3px #667eea;
-        }
-        
-        .step-pending {
-            background: white;
-            border: 2px solid #d1d5db;
-            color: #9ca3af;
-        }
-        
-        .rate-up { color: #10b981; animation: pulse 0.5s ease; }
-        .rate-down { color: #ef4444; animation: pulse 0.5s ease; }
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
@@ -127,117 +104,97 @@
     <!-- Main Container -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         
-        <!-- Header -->
-        <div class="bg-white rounded-2xl p-4 sm:p-6 mb-6 shadow-xl">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <button onclick="openMobileMenu()" class="lg:hidden text-gray-600 hover:text-purple-600 transition">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                    <div class="gradient-primary w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-exchange-alt text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                            PaySolver
-                        </h1>
-                        <p class="text-xs text-gray-500">Cross-Currency Payment Solution</p>
-                    </div>
-                </div>
-                
-                <div class="hidden lg:flex space-x-2">
-                    <button onclick="navigateTo('main')" id="nav-main" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all tab-active">
-                        <i class="fas fa-home mr-2"></i>Convert
-                    </button>
-                    <button onclick="navigateTo('exchange')" id="nav-exchange" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
-                        <i class="fas fa-exchange-alt mr-2"></i>Exchange
-                    </button>
-                    <button onclick="navigateTo('spend')" id="nav-spend" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
-                        <i class="fas fa-credit-card mr-2"></i>Pay
-                    </button>
-                    <button onclick="navigateTo('history')" id="nav-history" class="nav-btn px-5 py-2.5 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100">
-                        <i class="fas fa-history mr-2"></i>History
-                    </button>
-                </div>
-                
-                <div class="flex items-center space-x-3">
-                    <div class="gradient-primary w-10 h-10 rounded-full flex items-center justify-center shadow-md">
-                        <i class="fas fa-user text-white text-sm"></i>
-                    </div>
-                    <div class="hidden sm:block">
-                        <p class="text-sm font-semibold" id="userNameDisplay">Michael Traveler</p>
-                        <p class="text-xs text-gray-500">Verified User</p>
+        <!-- FIX #1: FIRST IMPRESSION - Clear, Professional, Fintech -->
+        <div class="gradient-primary rounded-2xl p-6 sm:p-8 mb-6 shadow-xl text-white">
+            <div class="text-center">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-3">PaySolver</h1>
+                <p class="text-base sm:text-lg opacity-95 max-w-2xl mx-auto">
+                    A prototype for seamless cross-currency payments using mobile money infrastructure.
+                </p>
+                <div class="mt-4 flex justify-center">
+                    <div class="bg-white/20 rounded-full px-4 py-1 text-sm">
+                        <i class="fas fa-shield-alt mr-1"></i> Financial Infrastructure Prototype
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Clear Explanation Section -->
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 sm:p-6 mb-6 shadow-lg animate-slide-up">
-            <div class="flex items-start space-x-3">
-                <div class="gradient-primary w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-info-circle text-white text-lg"></i>
+        <!-- FIX #2: HOW IT WORKS Section (SUPER IMPORTANT) -->
+        <div class="bg-white rounded-2xl p-6 mb-6 shadow-lg animate-slide-up">
+            <h2 class="text-xl font-bold mb-4 text-center flex items-center justify-center">
+                <i class="fas fa-question-circle text-purple-500 mr-2"></i>
+                How PaySolver Works
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="text-center p-4">
+                    <div class="gradient-primary w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">1</div>
+                    <p class="font-semibold">Enter amount and select currency</p>
+                    <p class="text-xs text-gray-500 mt-1">Choose your destination country and amount to convert</p>
                 </div>
-                <div>
-                    <h3 class="font-bold text-gray-800">About PaySolver</h3>
-                    <p class="text-sm text-gray-600 mt-1">
-                        PaySolver is a prototype that demonstrates seamless cross-currency payments using mobile money systems. 
-                        This platform allows you to convert USD to local currencies, exchange at live forex rates, 
-                        and make instant payments to merchants - all from one simple interface.
-                    </p>
+                <div class="text-center p-4">
+                    <div class="gradient-primary w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">2</div>
+                    <p class="font-semibold">Instantly convert at transparent rates</p>
+                    <p class="text-xs text-gray-500 mt-1">Live exchange rates with clear 1% fee displayed upfront</p>
+                </div>
+                <div class="text-center p-4">
+                    <div class="gradient-primary w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">3</div>
+                    <p class="font-semibold">Store or use funds via wallet</p>
+                    <p class="text-xs text-gray-500 mt-1">Hold local currency or make instant payments to merchants</p>
                 </div>
             </div>
         </div>
 
-        <!-- STEP PROGRESS CIRCLES - FIXED AND RESTORED -->
+        <!-- FIX #7: IMPACT STATEMENT -->
+        <div class="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-4 mb-6 shadow-md border border-green-200">
+            <div class="flex items-center justify-center space-x-2 text-center">
+                <i class="fas fa-bullhorn text-green-600 text-xl"></i>
+                <p class="text-sm text-green-800 font-medium">
+                    "PaySolver reduces reliance on physical forex bureaus by digitizing currency exchange and payments."
+                </p>
+            </div>
+        </div>
+
+        <!-- Step Progress Indicator -->
         <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-6 animate-slide-up">
-            <h3 class="font-bold text-sm text-gray-500 mb-4 text-center">How to Use PaySolver</h3>
+            <h3 class="font-bold text-sm text-gray-500 mb-4 text-center">Your Journey</h3>
             <div class="flex items-center justify-between">
-                <!-- Step 1 -->
                 <div class="flex-1 text-center">
-                    <div id="step1Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                    <div id="step1Circle" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg">
                         <i class="fas fa-check text-xs sm:text-sm"></i>
                     </div>
-                    <p class="text-xs sm:text-sm font-semibold mt-2">1. Deposit</p>
-                    <p class="text-xs text-gray-400 hidden sm:block">Add USD to wallet</p>
+                    <p class="text-xs font-semibold">1. Deposit</p>
                 </div>
                 <div class="flex-1 h-1 bg-gray-200 mx-2">
-                    <div id="stepProgress1" class="h-full bg-green-500 rounded-full transition-all" style="width: 100%"></div>
+                    <div id="stepProgress1" class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
                 </div>
-                <!-- Step 2 -->
                 <div class="flex-1 text-center">
-                    <div id="step2Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                    <div id="step2Circle" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg">
                         <span class="text-sm sm:text-base font-bold">2</span>
                     </div>
-                    <p class="text-xs sm:text-sm font-semibold mt-2">2. Select Country</p>
-                    <p class="text-xs text-gray-400 hidden sm:block">Choose destination</p>
+                    <p class="text-xs font-semibold">2. Select Country</p>
                 </div>
                 <div class="flex-1 h-1 bg-gray-200 mx-2">
-                    <div id="stepProgress2" class="h-full bg-green-500 rounded-full transition-all" style="width: 0%"></div>
+                    <div id="stepProgress2" class="h-full bg-green-500 rounded-full" style="width: 0%"></div>
                 </div>
-                <!-- Step 3 -->
                 <div class="flex-1 text-center">
-                    <div id="step3Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                    <div id="step3Circle" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg">
                         <span class="text-sm sm:text-base font-bold">3</span>
                     </div>
-                    <p class="text-xs sm:text-sm font-semibold mt-2">3. Exchange</p>
-                    <p class="text-xs text-gray-400 hidden sm:block">USD → Local</p>
+                    <p class="text-xs font-semibold">3. Exchange</p>
                 </div>
                 <div class="flex-1 h-1 bg-gray-200 mx-2">
-                    <div id="stepProgress3" class="h-full bg-green-500 rounded-full transition-all" style="width: 0%"></div>
+                    <div id="stepProgress3" class="h-full bg-green-500 rounded-full" style="width: 0%"></div>
                 </div>
-                <!-- Step 4 -->
                 <div class="flex-1 text-center">
-                    <div id="step4Circle" class="step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg transition-all">
+                    <div id="step4Circle" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center mx-auto mb-2 shadow-lg">
                         <span class="text-sm sm:text-base font-bold">4</span>
                     </div>
-                    <p class="text-xs sm:text-sm font-semibold mt-2">4. Pay</p>
-                    <p class="text-xs text-gray-400 hidden sm:block">Complete payment</p>
+                    <p class="text-xs font-semibold">4. Pay</p>
                 </div>
             </div>
         </div>
 
-        <!-- Live Forex Rates Ticker -->
+        <!-- Live Exchange Rates -->
         <div class="bg-white rounded-2xl p-4 mb-6 shadow-lg animate-slide-up">
             <div class="flex items-center justify-between mb-3">
                 <h3 class="font-bold text-sm flex items-center">
@@ -247,53 +204,65 @@
                 <span class="text-xs text-gray-400" id="rateTimestamp">Updated just now</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                <div class="bg-gray-50 rounded-xl p-2 text-center">
                     <p class="font-bold text-sm">🇺🇬 UGX</p>
                     <p class="text-lg font-bold text-purple-600" id="rate-UGX">3,700</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                <div class="bg-gray-50 rounded-xl p-2 text-center">
                     <p class="font-bold text-sm">🇰🇪 KES</p>
                     <p class="text-lg font-bold text-purple-600" id="rate-KES">130.00</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                <div class="bg-gray-50 rounded-xl p-2 text-center">
                     <p class="font-bold text-sm">🇹🇿 TZS</p>
                     <p class="text-lg font-bold text-purple-600" id="rate-TZS">2,500</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                <div class="bg-gray-50 rounded-xl p-2 text-center">
                     <p class="font-bold text-sm">🇿🇦 ZAR</p>
                     <p class="text-lg font-bold text-purple-600" id="rate-ZAR">18.50</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                <div class="bg-gray-50 rounded-xl p-2 text-center">
                     <p class="font-bold text-sm">🇪🇺 EUR</p>
                     <p class="text-lg font-bold text-purple-600" id="rate-EUR">0.92</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-2 text-center hover:bg-purple-50 transition">
+                <div class="bg-gray-50 rounded-xl p-2 text-center">
                     <p class="font-bold text-sm">🇬🇧 GBP</p>
                     <p class="text-lg font-bold text-purple-600" id="rate-GBP">0.79</p>
                 </div>
             </div>
             <div class="text-center mt-3">
-                <p class="text-xs text-gray-400 flex items-center justify-center">
-                    <i class="fas fa-info-circle mr-1"></i>
-                    Exchange Fee: <strong class="text-purple-600">1%</strong> of transaction amount
-                </p>
+                <p class="text-xs text-gray-400">Exchange fee: <strong class="text-purple-600">1%</strong> of transaction amount</p>
             </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+            <button onclick="navigateTo('main')" id="nav-main" class="nav-btn px-4 py-2 rounded-xl font-semibold transition-all tab-active whitespace-nowrap">
+                <i class="fas fa-home mr-1"></i>Convert
+            </button>
+            <button onclick="navigateTo('exchange')" id="nav-exchange" class="nav-btn px-4 py-2 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100 whitespace-nowrap">
+                <i class="fas fa-exchange-alt mr-1"></i>Exchange
+            </button>
+            <button onclick="navigateTo('spend')" id="nav-spend" class="nav-btn px-4 py-2 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100 whitespace-nowrap">
+                <i class="fas fa-credit-card mr-1"></i>Pay
+            </button>
+            <button onclick="navigateTo('history')" id="nav-history" class="nav-btn px-4 py-2 rounded-xl font-semibold transition-all text-gray-600 hover:bg-gray-100 whitespace-nowrap">
+                <i class="fas fa-history mr-1"></i>History
+            </button>
         </div>
 
         <!-- Dynamic Content -->
         <div id="content-area" class="animate-slide-up"></div>
 
-        <!-- DISCLAIMER FOOTER - IMPORTANT FOR TRUST -->
+        <!-- FIX #3: DISCLAIMER (Boosts trust FAST) -->
         <div class="mt-8 text-center">
             <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-3">
                 <p class="text-xs text-yellow-800">
                     <i class="fas fa-exclamation-triangle mr-1"></i>
-                    This is a prototype built for demonstration purposes. 
-                    Real transactions would require integration with licensed financial institutions and mobile money providers.
+                    This is a prototype built for demonstration purposes during a hackathon. No real money transactions occur.
                 </p>
             </div>
             <p class="text-xs text-gray-400 mt-4">
-                © 2026 PaySolver - Cross-Currency Payment Solution | Secure & Reliable dev allan
+                © 2024 PaySolver - Cross-Currency Payment Infrastructure | Reducing reliance on physical forex bureaus
             </p>
         </div>
     </div>
@@ -301,7 +270,7 @@
     <script>
         // ==================== STATE ====================
         
-        let user = { name: "lyesa allan", email: "alanwel32@gmail.com" };
+        let user = { name: "Michael Traveler", email: "michael@example.com" };
         
         let mainAccount = {
             currency: "USD",
@@ -324,16 +293,16 @@
         };
         
         let countries = [
-            { name: "Uganda", currency: "UGX", flag: "🇺🇬", symbol: "USh", color: "from-green-500 to-teal-500" },
-            { name: "Kenya", currency: "KES", flag: "🇰🇪", symbol: "KSh", color: "from-red-500 to-orange-500" },
-            { name: "Tanzania", currency: "TZS", flag: "🇹🇿", symbol: "TSh", color: "from-blue-500 to-cyan-500" },
-            { name: "South Africa", currency: "ZAR", flag: "🇿🇦", symbol: "R", color: "from-yellow-500 to-orange-500" },
-            { name: "Nigeria", currency: "NGN", flag: "🇳🇬", symbol: "₦", color: "from-green-500 to-emerald-500" },
-            { name: "Ghana", currency: "GHS", flag: "🇬🇭", symbol: "₵", color: "from-red-500 to-yellow-500" },
-            { name: "United Kingdom", currency: "GBP", flag: "🇬🇧", symbol: "£", color: "from-blue-600 to-indigo-600" },
-            { name: "Germany", currency: "EUR", flag: "🇩🇪", symbol: "€", color: "from-yellow-500 to-amber-500" },
-            { name: "Japan", currency: "JPY", flag: "🇯🇵", symbol: "¥", color: "from-red-500 to-pink-500" },
-            { name: "India", currency: "INR", flag: "🇮🇳", symbol: "₹", color: "from-orange-500 to-red-500" }
+            { name: "Uganda", currency: "UGX", flag: "🇺🇬", symbol: "USh" },
+            { name: "Kenya", currency: "KES", flag: "🇰🇪", symbol: "KSh" },
+            { name: "Tanzania", currency: "TZS", flag: "🇹🇿", symbol: "TSh" },
+            { name: "South Africa", currency: "ZAR", flag: "🇿🇦", symbol: "R" },
+            { name: "Nigeria", currency: "NGN", flag: "🇳🇬", symbol: "₦" },
+            { name: "Ghana", currency: "GHS", flag: "🇬🇭", symbol: "₵" },
+            { name: "United Kingdom", currency: "GBP", flag: "🇬🇧", symbol: "£" },
+            { name: "Germany", currency: "EUR", flag: "🇩🇪", symbol: "€" },
+            { name: "Japan", currency: "JPY", flag: "🇯🇵", symbol: "¥" },
+            { name: "India", currency: "INR", flag: "🇮🇳", symbol: "₹" }
         ];
         
         let transactions = [];
@@ -360,7 +329,7 @@
         
         function showToast(message, type = "success") {
             const toast = document.createElement('div');
-            toast.className = `toast-notification fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg text-white text-sm ${type === 'success' ? 'gradient-success' : 'gradient-warning'}`;
+            toast.className = `toast-notification fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg text-white text-sm ${type === 'success' ? 'gradient-success' : 'bg-red-500'}`;
             toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} mr-2"></i>${message}`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
@@ -394,69 +363,47 @@
         }
         
         function updateStepProgress() {
-            // Step 1 always complete (deposit done)
-            document.getElementById('step1Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all";
             document.getElementById('step1Circle').innerHTML = '<i class="fas fa-check text-xs sm:text-sm"></i>';
             document.getElementById('stepProgress1').style.width = '100%';
             
-            // Step 2: Country selected?
             if (localHolding.currency) {
-                document.getElementById('step2Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all";
                 document.getElementById('step2Circle').innerHTML = '<i class="fas fa-check text-xs sm:text-sm"></i>';
+                document.getElementById('step2Circle').classList.add('bg-green-500', 'text-white');
+                document.getElementById('step2Circle').classList.remove('bg-gray-200', 'text-gray-500');
                 document.getElementById('stepProgress2').style.width = '100%';
                 
-                // Step 3: Has local balance?
                 if (localHolding.balance > 0) {
-                    document.getElementById('step3Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all";
                     document.getElementById('step3Circle').innerHTML = '<i class="fas fa-check text-xs sm:text-sm"></i>';
+                    document.getElementById('step3Circle').classList.add('bg-green-500', 'text-white');
+                    document.getElementById('step3Circle').classList.remove('bg-gray-200', 'text-gray-500');
                     document.getElementById('stepProgress3').style.width = '100%';
-                } else {
-                    document.getElementById('step3Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all animate-pulse";
-                    document.getElementById('step3Circle').innerHTML = '<span class="text-sm sm:text-base font-bold">3</span>';
                 }
-            } else {
-                document.getElementById('step2Circle').className = "step-circle w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center mx-auto mb-2 shadow-lg transition-all animate-pulse";
-                document.getElementById('step2Circle').innerHTML = '<span class="text-sm sm:text-base font-bold">2</span>';
             }
         }
         
         function updateLiveRates() {
             Object.keys(exchangeRates).forEach(currency => {
                 let fluctuation = (Math.random() - 0.5) * 0.002;
-                let newRate = exchangeRates[currency] * (1 + fluctuation);
-                exchangeRates[currency] = Math.max(0.01, newRate);
-                
+                exchangeRates[currency] = Math.max(0.01, exchangeRates[currency] * (1 + fluctuation));
                 let rateElement = document.getElementById(`rate-${currency}`);
                 if (rateElement) {
-                    let oldValue = parseFloat(rateElement.innerText.replace(/,/g, ''));
                     rateElement.innerText = exchangeRates[currency].toFixed(2);
-                    if (exchangeRates[currency] > oldValue) {
-                        rateElement.classList.add('rate-up');
-                        setTimeout(() => rateElement.classList.remove('rate-up'), 500);
-                    } else if (exchangeRates[currency] < oldValue) {
-                        rateElement.classList.add('rate-down');
-                        setTimeout(() => rateElement.classList.remove('rate-down'), 500);
-                    }
                 }
             });
-            
             if (localHolding.currency) {
                 localHolding.exchangeRate = exchangeRates[localHolding.currency];
             }
-            
             document.getElementById('rateTimestamp').innerText = 'Updated ' + new Date().toLocaleTimeString();
         }
         
-        // ==================== CORE ACTIONS WITH PROCESSING DELAY ====================
+        // ==================== CORE ACTIONS ====================
         
         function depositToMainAccount(amount, bankName = "Bank Transfer") {
             if (amount <= 0) {
                 showToast("Please enter a valid amount", "error");
                 return false;
             }
-            
             let toast = showProcessingToast("Processing deposit...");
-            
             setTimeout(() => {
                 toast.remove();
                 mainAccount.balance += amount;
@@ -464,7 +411,6 @@
                 showToast(`✅ ${formatMoney(amount, "USD")} added to your account!`, "success");
                 saveToLocalStorage();
             }, 1500);
-            
             return true;
         }
         
@@ -487,18 +433,14 @@
                 showToast(`Insufficient USD balance. You have ${formatMoney(mainAccount.balance, "USD")}`, "error");
                 return false;
             }
-            
             let toast = showProcessingToast("Processing exchange...");
-            
             setTimeout(() => {
                 let rate = localHolding.exchangeRate;
                 let fee = usdAmount * (exchangeFeePercent / 100);
                 let netUsd = usdAmount - fee;
                 let localAmount = netUsd * rate;
-                
                 mainAccount.balance -= usdAmount;
                 localHolding.balance += localAmount;
-                
                 addTransaction("EXCHANGE", `Exchanged ${formatMoney(usdAmount, "USD")} → ${formatMoney(localAmount, localHolding.currency)} (Fee: ${formatMoney(fee, "USD")})`, usdAmount, "USD");
                 showToast(`✅ Exchanged to ${formatMoney(localAmount, localHolding.currency)}`, "success");
                 saveToLocalStorage();
@@ -506,7 +448,6 @@
                 updateStepProgress();
                 renderCurrentSection();
             }, 1500);
-            
             return true;
         }
         
@@ -531,9 +472,7 @@
                 showToast("Please enter merchant name", "error");
                 return false;
             }
-            
             let toast = showProcessingToast("Processing payment...");
-            
             setTimeout(() => {
                 localHolding.balance -= amount;
                 addTransaction("PAYMENT", `Paid ${formatMoney(amount, localHolding.currency)} to ${merchant}${description ? ` (${description})` : ''}`, amount, localHolding.currency);
@@ -543,7 +482,6 @@
                 updateStepProgress();
                 renderCurrentSection();
             }, 1500);
-            
             return true;
         }
         
@@ -552,19 +490,15 @@
                 showToast("No local currency to convert back", "error");
                 return false;
             }
-            
-            let toast = showProcessingToast("Converting back to USD...");
-            
+            let toast = showProcessingToast("Converting back...");
             setTimeout(() => {
                 let rate = localHolding.exchangeRate;
                 let usdAmount = localHolding.balance / rate;
                 let fee = usdAmount * (exchangeFeePercent / 100);
                 let netUsd = usdAmount - fee;
-                
                 mainAccount.balance += netUsd;
                 let convertedAmount = localHolding.balance;
                 localHolding.balance = 0;
-                
                 addTransaction("CONVERT_BACK", `Converted ${formatMoney(convertedAmount, localHolding.currency)} back to ${formatMoney(netUsd, "USD")} (Fee: ${formatMoney(fee, "USD")})`, netUsd, "USD");
                 showToast(`✅ Converted back to ${formatMoney(netUsd, "USD")}`, "success");
                 saveToLocalStorage();
@@ -572,7 +506,6 @@
                 updateStepProgress();
                 renderCurrentSection();
             }, 1500);
-            
             return true;
         }
         
@@ -615,21 +548,20 @@
         function renderMainSection() {
             let totalValue = getTotalValueUSD();
             let countryInfo = countries.find(c => c.currency === localHolding.currency);
-            
             return `
                 <div class="space-y-6">
-                    <div class="gradient-primary rounded-3xl p-6 sm:p-8 text-white shadow-2xl hover-lift">
+                    <div class="gradient-primary rounded-3xl p-6 text-white shadow-2xl">
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-sm opacity-80 mb-1">Main Wallet Balance</p>
-                                <p class="text-4xl sm:text-5xl font-bold">${formatMoney(mainAccount.balance, "USD")}</p>
+                                <p class="text-4xl font-bold">${formatMoney(mainAccount.balance, "USD")}</p>
                                 <p class="text-xs opacity-70 mt-2">Account: ${mainAccount.accountNumber}</p>
                             </div>
                             <div class="bg-white/20 rounded-2xl p-3">
                                 <i class="fas fa-wallet text-3xl"></i>
                             </div>
                         </div>
-                        <div class="mt-6 flex flex-wrap gap-3">
+                        <div class="mt-6 flex gap-3">
                             <button onclick="showDepositModal()" class="bg-white text-purple-600 px-5 py-2.5 rounded-xl font-semibold hover:shadow-lg transition text-sm">
                                 <i class="fas fa-plus mr-2"></i>Deposit
                             </button>
@@ -640,56 +572,19 @@
                     </div>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-gray-500 text-sm">Total Value</span>
-                                <i class="fas fa-chart-line text-purple-500 text-xl"></i>
-                            </div>
+                        <div class="bg-white rounded-2xl p-5 shadow-lg">
+                            <p class="text-gray-500 text-sm">Total Value</p>
                             <p class="text-2xl font-bold text-purple-600">${formatMoney(totalValue, "USD")}</p>
                         </div>
-                        <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-gray-500 text-sm">Local Currency</span>
-                                <i class="fas fa-map-marker-alt text-green-500 text-xl"></i>
-                            </div>
+                        <div class="bg-white rounded-2xl p-5 shadow-lg">
+                            <p class="text-gray-500 text-sm">Local Currency</p>
                             <p class="text-2xl font-bold text-green-600">${localHolding.currency ? formatMoney(localHolding.balance, localHolding.currency) : 'Not set'}</p>
                         </div>
-                        <div class="bg-white rounded-2xl p-5 shadow-lg hover-lift">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-gray-500 text-sm">Exchange Fee</span>
-                                <i class="fas fa-percent text-blue-500 text-xl"></i>
-                            </div>
+                        <div class="bg-white rounded-2xl p-5 shadow-lg">
+                            <p class="text-gray-500 text-sm">Exchange Fee</p>
                             <p class="text-2xl font-bold text-blue-600">${exchangeFeePercent}%</p>
                         </div>
                     </div>
-                    
-                    ${!localHolding.currency ? `
-                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 text-center">
-                            <i class="fas fa-info-circle text-yellow-500 text-3xl mb-2"></i>
-                            <p class="text-gray-600">No destination selected</p>
-                            <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Select Country →</button>
-                        </div>
-                    ` : `
-                        <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h3 class="font-bold text-lg mb-4 flex items-center">
-                                <i class="fas fa-location-dot text-purple-500 mr-2"></i>
-                                Current Destination: ${localHolding.country}
-                            </h3>
-                            <div class="bg-gradient-to-r ${countryInfo?.color || 'from-purple-500 to-pink-500'} rounded-xl p-4 text-white">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="text-sm opacity-90">Your ${localHolding.currency} Balance</p>
-                                        <p class="text-3xl font-bold">${formatMoney(localHolding.balance, localHolding.currency)}</p>
-                                    </div>
-                                    <div class="text-5xl">${countryInfo?.flag || '🌍'}</div>
-                                </div>
-                                <div class="mt-3 flex gap-3">
-                                    <button onclick="navigateTo('exchange')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Exchange More</button>
-                                    <button onclick="navigateTo('spend')" class="flex-1 bg-white/20 px-3 py-2 rounded-lg text-sm hover:bg-white/30">Pay Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    `}
                 </div>
             `;
         }
@@ -698,36 +593,28 @@
             return `
                 <div class="space-y-6">
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
-                        <h2 class="text-xl font-bold mb-4 flex items-center">
-                            <i class="fas fa-globe-africa text-purple-500 mr-2"></i>
-                            Step 2: Select Your Destination
-                        </h2>
+                        <h2 class="text-xl font-bold mb-4">Select Your Destination</h2>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                             ${countries.map(country => `
                                 <button onclick="selectCountry('${country.name}', '${country.currency}')" 
                                     class="p-4 rounded-xl text-center transition-all ${localHolding.currency === country.currency ? 'gradient-primary text-white shadow-lg' : 'bg-gray-50 hover:bg-purple-50'}">
                                     <span class="text-3xl block mb-2">${country.flag}</span>
                                     <p class="font-semibold text-sm">${country.name}</p>
-                                    <p class="text-xs ${localHolding.currency === country.currency ? 'text-white/80' : 'text-gray-500'}">${country.currency}</p>
+                                    <p class="text-xs">${country.currency}</p>
                                 </button>
                             `).join('')}
                         </div>
                     </div>
                     
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
-                        <h2 class="text-xl font-bold mb-4 flex items-center">
-                            <i class="fas fa-exchange-alt text-blue-500 mr-2"></i>
-                            Step 3: Exchange USD to Local Currency
-                        </h2>
-                        
+                        <h2 class="text-xl font-bold mb-4">Exchange USD to Local Currency</h2>
                         ${!localHolding.currency ? `
                             <div class="bg-blue-50 rounded-xl p-8 text-center">
-                                <i class="fas fa-info-circle text-blue-500 text-3xl mb-2"></i>
                                 <p class="text-gray-600">Select a country above to continue</p>
                             </div>
                         ` : `
                             <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl p-4 mb-6 text-white">
-                                <div class="flex justify-between items-center">
+                                <div class="flex justify-between">
                                     <div>
                                         <p class="text-sm opacity-90">Destination</p>
                                         <p class="text-xl font-bold">${localHolding.country} (${localHolding.currency})</p>
@@ -738,45 +625,29 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-semibold mb-2 text-gray-700">Amount in USD</label>
-                                    <div class="relative">
-                                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold">$</span>
-                                        <input type="number" id="exchangeAmount" placeholder="0.00" class="w-full pl-8 pr-4 py-3 border-2 rounded-xl input-focus">
-                                    </div>
+                                    <label class="block text-sm font-semibold mb-2">Amount in USD</label>
+                                    <input type="number" id="exchangeAmount" placeholder="0.00" class="w-full px-4 py-3 border-2 rounded-xl">
                                 </div>
-                                
                                 <div id="exchangePreview" class="bg-gray-50 rounded-xl p-4 hidden">
-                                    <div class="space-y-2">
-                                        <div class="flex justify-between text-sm">
-                                            <span class="text-gray-600">Amount:</span>
-                                            <span id="previewAmount" class="font-semibold"></span>
-                                        </div>
-                                        <div class="flex justify-between text-sm">
-                                            <span class="text-gray-600">Exchange Fee (${exchangeFeePercent}%):</span>
-                                            <span id="previewFee" class="text-red-500"></span>
-                                        </div>
-                                        <div class="flex justify-between text-lg font-bold pt-2 border-t">
-                                            <span>You receive:</span>
-                                            <span id="previewReceive" class="text-green-600"></span>
-                                        </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span>Amount:</span>
+                                        <span id="previewAmount" class="font-semibold"></span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span>Fee (${exchangeFeePercent}%):</span>
+                                        <span id="previewFee" class="text-red-500"></span>
+                                    </div>
+                                    <div class="flex justify-between text-lg font-bold pt-2 border-t">
+                                        <span>You receive:</span>
+                                        <span id="previewReceive" class="text-green-600"></span>
                                     </div>
                                 </div>
-                                
-                                <div class="flex flex-wrap gap-3">
-                                    <button onclick="executeExchange()" class="flex-1 btn-primary text-white py-3 rounded-xl font-bold shadow-lg">
-                                        <i class="fas fa-exchange-alt mr-2"></i>Exchange Now
-                                    </button>
-                                    <button onclick="quickExchange(100)" class="bg-gray-100 px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">$100</button>
-                                    <button onclick="quickExchange(200)" class="bg-gray-100 px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">$200</button>
-                                    <button onclick="quickExchange(500)" class="bg-gray-100 px-5 py-3 rounded-xl font-semibold hover:bg-gray-200 transition">$500</button>
-                                </div>
-                                
-                                <div class="bg-yellow-50 rounded-xl p-3 text-xs text-yellow-800">
-                                    <i class="fas fa-info-circle mr-1"></i>
-                                    Your Main Balance: ${formatMoney(mainAccount.balance, "USD")}
+                                <div class="flex gap-3">
+                                    <button onclick="executeExchange()" class="flex-1 btn-primary text-white py-3 rounded-xl font-bold">Exchange Now</button>
+                                    <button onclick="quickExchange(100)" class="bg-gray-100 px-5 py-3 rounded-xl">$100</button>
+                                    <button onclick="quickExchange(200)" class="bg-gray-100 px-5 py-3 rounded-xl">$200</button>
                                 </div>
                             </div>
                         `}
@@ -787,26 +658,18 @@
         
         function renderSpendSection() {
             let countryInfo = countries.find(c => c.currency === localHolding.currency);
-            
             return `
                 <div class="space-y-6">
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
-                        <h2 class="text-xl font-bold mb-4 flex items-center">
-                            <i class="fas fa-credit-card text-green-500 mr-2"></i>
-                            Step 4: Pay / Transfer
-                        </h2>
-                        
+                        <h2 class="text-xl font-bold mb-4">Pay / Transfer</h2>
                         ${!localHolding.currency ? `
                             <div class="bg-yellow-50 rounded-xl p-8 text-center">
-                                <i class="fas fa-info-circle text-yellow-500 text-3xl mb-2"></i>
                                 <p class="text-gray-600">No destination selected</p>
                                 <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Select Country →</button>
                             </div>
                         ` : localHolding.balance === 0 ? `
                             <div class="bg-yellow-50 rounded-xl p-8 text-center">
-                                <i class="fas fa-info-circle text-yellow-500 text-3xl mb-2"></i>
                                 <p class="text-gray-600">No ${localHolding.currency} balance</p>
-                                <p class="text-sm text-gray-500 mt-1">Exchange USD to ${localHolding.currency} first</p>
                                 <button onclick="navigateTo('exchange')" class="mt-3 btn-primary text-white px-5 py-2 rounded-xl">Exchange Now →</button>
                             </div>
                         ` : `
@@ -814,83 +677,33 @@
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <p class="text-sm opacity-90 mb-1">Available to Pay</p>
-                                        <p class="text-4xl font-bold">${formatMoney(localHolding.balance, localHolding.currency)}</p>
-                                        <p class="text-sm opacity-80 mt-2">≈ ${formatMoney(localHolding.balance / localHolding.exchangeRate, "USD")} USD</p>
+                                        <p class="text-3xl font-bold">${formatMoney(localHolding.balance, localHolding.currency)}</p>
                                     </div>
-                                    <div class="bg-white/20 rounded-2xl p-4 text-center">
-                                        <div class="text-5xl">${countryInfo?.flag || '🌍'}</div>
-                                        <p class="text-sm mt-1 font-semibold">${localHolding.country}</p>
+                                    <div class="bg-white/20 rounded-2xl p-3 text-center">
+                                        <div class="text-3xl">${countryInfo?.flag || '🌍'}</div>
+                                        <p class="text-sm">${localHolding.country}</p>
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-semibold mb-2 text-gray-700">🏪 Merchant / Business Name *</label>
-                                    <input type="text" id="merchantName" placeholder="e.g., Airport Cafe, Serena Hotel, Taxi Driver" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
+                                    <label class="block text-sm font-semibold mb-2">Merchant Name *</label>
+                                    <input type="text" id="merchantName" placeholder="e.g., Airport Cafe, Serena Hotel" class="w-full px-4 py-3 border-2 rounded-xl">
                                 </div>
-                                
                                 <div>
-                                    <label class="block text-sm font-semibold mb-2 text-gray-700">💰 Amount (${localHolding.currency}) *</label>
-                                    <input type="number" id="spendAmount" placeholder="0.00" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
+                                    <label class="block text-sm font-semibold mb-2">Amount (${localHolding.currency}) *</label>
+                                    <input type="number" id="spendAmount" placeholder="0.00" class="w-full px-4 py-3 border-2 rounded-xl">
                                 </div>
-                                
                                 <div>
-                                    <label class="block text-sm font-semibold mb-2 text-gray-700">📝 Description (Optional)</label>
-                                    <input type="text" id="spendDesc" placeholder="e.g., Lunch, Hotel, Shopping" class="w-full px-4 py-3 border-2 rounded-xl input-focus">
+                                    <label class="block text-sm font-semibold mb-2">Description (Optional)</label>
+                                    <input type="text" id="spendDesc" placeholder="e.g., Lunch, Hotel" class="w-full px-4 py-3 border-2 rounded-xl">
                                 </div>
-                                
-                                <button id="payNowButton" class="w-full btn-success text-white py-4 rounded-xl font-bold text-lg shadow-xl hover-lift">
-                                    <i class="fas fa-check-circle mr-2"></i>
-                                    PAY NOW
+                                <button onclick="executeSpend()" class="w-full btn-success text-white py-4 rounded-xl font-bold text-lg">
+                                    <i class="fas fa-check-circle mr-2"></i>PAY NOW
                                 </button>
                             </div>
                         `}
                     </div>
-                    
-                    ${localHolding.currency && localHolding.balance > 0 ? `
-                        <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h3 class="font-bold text-lg mb-4 flex items-center">
-                                <i class="fas fa-bolt text-yellow-500 mr-2"></i>
-                                Quick Pay in ${localHolding.country}
-                            </h3>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                ${localHolding.currency === 'UGX' ? `
-                                    <button onclick="quickSpend(25000, 'Local Restaurant', 'Meal')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🍽️</div>
-                                        <div class="font-semibold text-sm">Meal</div>
-                                        <div class="text-xs text-gray-500">25,000 UGX</div>
-                                    </button>
-                                    <button onclick="quickSpend(50000, 'Airport Taxi', 'Transport')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🚕</div>
-                                        <div class="font-semibold text-sm">Airport Taxi</div>
-                                        <div class="text-xs text-gray-500">50,000 UGX</div>
-                                    </button>
-                                    <button onclick="quickSpend(250000, 'Hotel', 'Accommodation')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">🏨</div>
-                                        <div class="font-semibold text-sm">Hotel Night</div>
-                                        <div class="text-xs text-gray-500">250,000 UGX</div>
-                                    </button>
-                                    <button onclick="quickSpend(10000, 'Cafe', 'Coffee')" class="bg-gray-50 p-4 rounded-xl text-center hover:bg-green-50 transition">
-                                        <div class="text-2xl mb-2">☕</div>
-                                        <div class="font-semibold text-sm">Coffee</div>
-                                        <div class="text-xs text-gray-500">10,000 UGX</div>
-                                    </button>
-                                ` : `
-                                    <p class="text-center text-gray-500 col-span-4 p-4">Enter amount above and click PAY NOW!</p>
-                                `}
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${localHolding.currency && localHolding.balance > 0 ? `
-                        <div class="bg-white rounded-2xl p-4 shadow-lg text-center">
-                            <p class="text-sm text-gray-600 mb-2">Leaving ${localHolding.country}?</p>
-                            <button onclick="showConvertBackModal()" class="text-orange-600 hover:text-orange-700 text-sm font-semibold">
-                                <i class="fas fa-undo-alt mr-1"></i>Convert remaining ${localHolding.currency} back to USD
-                            </button>
-                        </div>
-                    ` : ''}
                 </div>
             `;
         }
@@ -898,11 +711,7 @@
         function renderHistorySection() {
             return `
                 <div class="bg-white rounded-2xl p-6 shadow-lg">
-                    <h2 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-history text-purple-500 mr-2"></i>
-                        Transaction History
-                    </h2>
-                    
+                    <h2 class="text-xl font-bold mb-4">Transaction History</h2>
                     ${transactions.length === 0 ? `
                         <div class="text-center py-12">
                             <i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i>
@@ -911,34 +720,22 @@
                     ` : `
                         <div class="space-y-3 max-h-96 overflow-y-auto">
                             ${transactions.map(tx => `
-                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:shadow-md transition">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full 
-                                            ${tx.type === 'DEPOSIT' ? 'bg-green-100' : tx.type === 'EXCHANGE' ? 'bg-purple-100' : tx.type === 'PAYMENT' ? 'bg-blue-100' : 'bg-orange-100'} 
-                                            flex items-center justify-center">
-                                            <i class="fas 
-                                                ${tx.type === 'DEPOSIT' ? 'fa-arrow-down text-green-500' : tx.type === 'EXCHANGE' ? 'fa-exchange-alt text-purple-500' : tx.type === 'PAYMENT' ? 'fa-credit-card text-blue-500' : 'fa-undo-alt text-orange-500'}">
-                                            </i>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-sm">${tx.type}</p>
-                                            <p class="text-xs text-gray-500">${tx.timestamp || formatDate(tx.date)}</p>
-                                            <p class="text-xs text-gray-400">ID: ${tx.id}</p>
-                                        </div>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                    <div>
+                                        <p class="font-semibold text-sm">${tx.type}</p>
+                                        <p class="text-xs text-gray-500">${tx.timestamp || formatDate(tx.date)}</p>
+                                        <p class="text-xs text-gray-400">ID: ${tx.id}</p>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-sm font-medium">${tx.details.substring(0, 40)}${tx.details.length > 40 ? '...' : ''}</p>
+                                        <p class="text-sm font-medium">${tx.details.substring(0, 40)}</p>
                                         <p class="text-xs text-green-500">Completed</p>
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
                     `}
-                    
                     <div class="mt-6 pt-4 border-t text-center">
-                        <button onclick="resetAllData()" class="bg-red-500 text-white px-6 py-2 rounded-xl text-sm hover:bg-red-600 transition">
-                            <i class="fas fa-trash mr-2"></i>Reset All Data
-                        </button>
+                        <button onclick="resetAllData()" class="bg-red-500 text-white px-6 py-2 rounded-xl text-sm">Reset All Data</button>
                     </div>
                 </div>
             `;
@@ -949,27 +746,18 @@
         function showDepositModal() {
             let amount = prompt("Enter amount in USD to deposit:", "1000");
             if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                let bank = prompt("Bank name:", "Bank Transfer");
-                depositToMainAccount(parseFloat(amount), bank || "Bank Transfer");
+                depositToMainAccount(parseFloat(amount), "Bank Transfer");
             }
         }
         
         function showWithdrawModal() {
             let amount = prompt("Enter amount in USD to withdraw:", "500");
-            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                if (mainAccount.balance >= parseFloat(amount)) {
-                    mainAccount.balance -= parseFloat(amount);
-                    addTransaction("WITHDRAWAL", `Withdrew ${formatMoney(parseFloat(amount), "USD")} to bank`, parseFloat(amount), "USD");
-                    showToast(`✅ Withdrew ${formatMoney(parseFloat(amount), "USD")}`, "success");
-                } else {
-                    showToast("Insufficient balance", "error");
-                }
-            }
-        }
-        
-        function showConvertBackModal() {
-            if (confirm(`Convert ${formatMoney(localHolding.balance, localHolding.currency)} back to USD? (${exchangeFeePercent}% fee applies)`)) {
-                convertBackToUSD();
+            if (amount && !isNaN(amount) && parseFloat(amount) > 0 && mainAccount.balance >= parseFloat(amount)) {
+                mainAccount.balance -= parseFloat(amount);
+                addTransaction("WITHDRAWAL", `Withdrew ${formatMoney(parseFloat(amount), "USD")}`, parseFloat(amount), "USD");
+                showToast(`✅ Withdrew ${formatMoney(parseFloat(amount), "USD")}`, "success");
+            } else {
+                showToast("Insufficient balance", "error");
             }
         }
         
@@ -981,7 +769,6 @@
             }
             exchangeToLocal(amount);
             document.getElementById('exchangeAmount').value = '';
-            document.getElementById('exchangePreview').classList.add('hidden');
         }
         
         function executeSpend() {
@@ -995,23 +782,16 @@
             exchangeToLocal(usdAmount);
         }
         
-        function quickSpend(amount, merchant, description) {
-            spendLocal(amount, merchant, description);
-        }
-        
         function setupExchangePreview() {
             let amountInput = document.getElementById('exchangeAmount');
             if (amountInput) {
                 amountInput.addEventListener('input', function() {
                     let amount = parseFloat(this.value);
                     let previewDiv = document.getElementById('exchangePreview');
-                    
                     if (localHolding.currency && amount > 0) {
-                        let rate = localHolding.exchangeRate;
                         let fee = amount * (exchangeFeePercent / 100);
                         let netAmount = amount - fee;
-                        let localAmount = netAmount * rate;
-                        
+                        let localAmount = netAmount * localHolding.exchangeRate;
                         document.getElementById('previewAmount').innerHTML = `${formatMoney(amount, "USD")}`;
                         document.getElementById('previewFee').innerHTML = `${formatMoney(fee, "USD")}`;
                         document.getElementById('previewReceive').innerHTML = `${formatMoney(localAmount, localHolding.currency)}`;
@@ -1027,77 +807,50 @@
         
         function navigateTo(section) {
             currentSection = section;
-            
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('tab-active');
                 btn.classList.add('text-gray-600', 'bg-transparent');
             });
             let activeBtn = document.getElementById(`nav-${section}`);
-            if (activeBtn) {
-                activeBtn.classList.add('tab-active');
-                activeBtn.classList.remove('text-gray-600');
-            }
-            
+            if (activeBtn) activeBtn.classList.add('tab-active');
             renderCurrentSection();
         }
         
         function renderCurrentSection() {
             let contentArea = document.getElementById('content-area');
             if (!contentArea) return;
-            
             switch(currentSection) {
-                case 'main':
-                    contentArea.innerHTML = renderMainSection();
-                    break;
-                case 'exchange':
-                    contentArea.innerHTML = renderExchangeSection();
+                case 'main': contentArea.innerHTML = renderMainSection(); break;
+                case 'exchange': 
+                    contentArea.innerHTML = renderExchangeSection(); 
                     setTimeout(setupExchangePreview, 100);
                     break;
-                case 'spend':
-                    contentArea.innerHTML = renderSpendSection();
-                    break;
-                case 'history':
-                    contentArea.innerHTML = renderHistorySection();
-                    break;
-                default:
-                    contentArea.innerHTML = renderMainSection();
+                case 'spend': contentArea.innerHTML = renderSpendSection(); break;
+                case 'history': contentArea.innerHTML = renderHistorySection(); break;
+                default: contentArea.innerHTML = renderMainSection();
             }
         }
         
-        function openMobileMenu() {
-            document.getElementById('mobileMenu').classList.remove('hidden');
-        }
-        
-        function closeMobileMenu() {
-            document.getElementById('mobileMenu').classList.add('hidden');
-        }
+        function openMobileMenu() { document.getElementById('mobileMenu').classList.remove('hidden'); }
+        function closeMobileMenu() { document.getElementById('mobileMenu').classList.add('hidden'); }
         
         // ==================== INIT ====================
         
         function init() {
             loadFromLocalStorage();
-            document.getElementById('userNameDisplay').innerText = user.name;
+            document.getElementById('userNameDisplay')?.setAttribute('data-name', user.name);
             updateStepProgress();
             renderCurrentSection();
-            
-            setInterval(() => {
-                updateLiveRates();
-                if (currentSection === 'exchange') {
-                    setupExchangePreview();
-                }
-            }, 10000);
+            setInterval(() => updateLiveRates(), 10000);
         }
         
-        // Make functions global
         window.navigateTo = navigateTo;
         window.selectCountry = selectCountry;
         window.showDepositModal = showDepositModal;
         window.showWithdrawModal = showWithdrawModal;
-        window.showConvertBackModal = showConvertBackModal;
         window.executeExchange = executeExchange;
         window.executeSpend = executeSpend;
         window.quickExchange = quickExchange;
-        window.quickSpend = quickSpend;
         window.resetAllData = resetAllData;
         window.openMobileMenu = openMobileMenu;
         window.closeMobileMenu = closeMobileMenu;
